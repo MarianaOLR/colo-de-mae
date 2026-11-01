@@ -160,7 +160,34 @@
 
         // RESULTADO
         if (qtdErros == 0) {
-          div_mensagem.innerHTML = `<span style="color: green;">Tudo certo, ${nome}! Seus dados foram validados.</span>`;
+          div_mensagem.innerHTML = `<span style="color: green;">Cadastrando...</span>`;
+
+          fetch("/usuarios/cadastrar", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              nomeServer: nome,
+              emailServer: email,
+              senhaServer: senha,
+            }),
+          })
+            .then(function (resposta) {
+              if (resposta.ok) {
+                div_mensagem.innerHTML = `<span style="color: green;">Cadastro realizado, ${nome}! Indo para o login...</span>`;
+
+                setTimeout(function () {
+                  window.location = "login.html";
+                }, 2000);
+              } else {
+                div_mensagem.innerHTML = `<span style="color: red;">Não foi possível cadastrar. Tente novamente.</span>`;
+              }
+            })
+            .catch(function (erro) {
+              console.log(erro);
+              div_mensagem.innerHTML = `<span style="color: red;">Erro de conexão com o servidor.</span>`;
+            });
         } else {
           div_mensagem.innerHTML = `<span style="color: red;">${mensagem}</span>`;
         }

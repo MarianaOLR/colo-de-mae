@@ -42,7 +42,7 @@
       </div>
       <nav>
         <a href="index.html">← Voltar para Home</a>
-        </nav>
+      </nav>
     </header>
 
     <div class="cadastro">
@@ -102,7 +102,35 @@
     }
 
     if (qtdErros == 0) {
-      div_mensagem.innerHTML = `<span style="color: green;">Dados preenchidos! Em breve a API vai conferir o seu login.</span>`;
+      div_mensagem.innerHTML = `<span style="color: green;">Entrando...</span>`;
+
+      fetch("/usuarios/autenticar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          emailServer: email,
+          senhaServer: senha,
+        }),
+      })
+        .then(function (resposta) {
+          if (resposta.ok) {
+            resposta.json().then(function (json) {
+              sessionStorage.ID_USUARIO = json.id;
+              sessionStorage.NOME_USUARIO = json.nome;
+              sessionStorage.EMAIL_USUARIO = json.email;
+
+              div_mensagem.innerHTML = `<span style="color: green;">Bem-vinda, ${json.nome}!</span>`;
+            });
+          } else {
+            div_mensagem.innerHTML = `<span style="color: red;">Email e/ou senha inválido(s).</span>`;
+          }
+        })
+        .catch(function (erro) {
+          console.log(erro);
+          div_mensagem.innerHTML = `<span style="color: red;">Erro de conexão com o servidor.</span>`;
+        });
     } else {
       div_mensagem.innerHTML = `<span style="color: red;">${mensagem}</span>`;
     }
