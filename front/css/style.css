@@ -44,6 +44,8 @@ header {
 }
 
 .logo {
+    display: flex;
+    align-items: center;
     font-family: 'Lora', serif;
     font-size: 28px;
     font-weight: 600;
