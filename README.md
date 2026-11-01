@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/tela-home.png" alt="Home do Colo de Mãe" width="720">
+![Home do Colo de Mãe](https://github.com/MarianaOLR/colo-de-mae/blob/principal/documentos/telas-finais/tela-home.png?raw=true)
 
 # 🌷 Colo de Mãe
 
@@ -38,13 +38,17 @@ Este é o meu **Projeto Individual** do 1º semestre de Análise e Desenvolvimen
 
 ## 🖼️ Telas
 
-| Cadastro | Login |
-|:---:|:---:|
-| <img src="docs/tela-cadastro.png" width="360"> | <img src="docs/tela-login.png" width="360"> |
+### Cadastro
+![Tela de cadastro](https://github.com/MarianaOLR/colo-de-mae/blob/principal/documentos/telas-finais/tela-cadastro.png?raw=true)
 
-| Diário | Dashboard |
-|:---:|:---:|
-| <img src="docs/tela-diario.png" width="360"> | <img src="docs/tela-dashboard.png" width="360"> |
+### Login
+![Tela de login](https://github.com/MarianaOLR/colo-de-mae/blob/principal/documentos/telas-finais/tela-login.png?raw=true)
+
+### Diário
+![Tela do diário](https://github.com/MarianaOLR/colo-de-mae/blob/principal/documentos/telas-finais/tela-diario.png?raw=true)
+
+### Dashboard
+![Tela do dashboard](https://github.com/MarianaOLR/colo-de-mae/blob/principal/documentos/telas-finais/tela-dashboard.png?raw=true)
 
 ## 🧩 Como as camadas conversam
 
