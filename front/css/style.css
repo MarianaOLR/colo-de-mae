@@ -1,4 +1,4 @@
-/* ===== CORES (a paleta do projeto) ===== */
+/* ===== CORES ===== */
 :root {
     --creme: #FFF8F0;
     --faixa: #FBEFE4;
@@ -29,7 +29,7 @@ h1, h2, h3 {
     font-weight: 600;
 }
 
-a { /* links */
+a {
     color: var(--texto);
     text-decoration: none;
 }
@@ -112,7 +112,7 @@ nav a {
 /* ===== SOBRE O PROJETO ===== */
 .sobre {
     background-color: var(--faixa);
-    border-top: 1px solid var(--linha); 
+    border-top: 1px solid var(--linha);
     border-bottom: 1px solid var(--linha);
     padding: 70px 56px;
 }
@@ -123,13 +123,13 @@ nav a {
 }
 
 .sobre p {
-    max-width: 640px;  
+    max-width: 640px;
     line-height: 1.9;
     margin-bottom: 16px;
 }
 
 .destaque {
-    font-style: italic;              
+    font-style: italic;
     font-size: 19px;
 }
 
@@ -154,12 +154,12 @@ nav a {
 }
 
 .card {
-    flex: 1;                               
+    flex: 1;
     background-color: white;
     border: 1.5px solid var(--linha);
     border-radius: 28px;
     padding: 28px 26px 34px;
-    text-align: left;                      
+    text-align: left;
 }
 
 .card h3 {
@@ -172,11 +172,48 @@ nav a {
     line-height: 1.8;
 }
 
+/* ===== ÍCONES DOS CARTÕES ===== */
+.icone {
+    width: 48px;
+    height: 48px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 22px;
+}
+
+.icone-pessego { background-color: var(--pessego); }
+.icone-amarelo { background-color: var(--amarelo); }
+.icone-lilas   { background-color: var(--lilas); }
+
+.icone svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: var(--texto);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
 /* ===== SOBRE MIM ===== */
 .sobre-mim {
+    display: flex;
+    align-items: center;
+    gap: 44px;
     background-color: var(--faixa);
     border-top: 1px solid var(--linha);
     padding: 64px 72px;
+}
+
+.foto {
+    width: 154px;
+    height: 154px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--pessego);
+    flex-shrink: 0;
 }
 
 .sobre-mim h2 {
@@ -185,7 +222,7 @@ nav a {
 }
 
 .nome {
-    font-weight: 600;                      
+    font-weight: 600;
     margin-bottom: 14px;
 }
 
@@ -194,10 +231,40 @@ nav a {
     line-height: 1.9;
 }
 
+/* ===== QUEM ME INSPIRA ===== */
+.inspiracao {
+    text-align: center;
+    padding: 70px 56px;
+}
+
+.inspiracao h2 {
+    font-size: 40px;
+    margin-bottom: 40px;
+}
+
+.fotos-mae {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+}
+
+.fotos-mae img {
+    width: 280px;
+    height: 340px;
+    object-fit: cover;
+    border-radius: 28px;
+    border: 2px solid var(--pessego);
+}
+
+.fotos-mae figcaption {
+    margin-top: 14px;
+    font-style: italic;
+}
+
 /* ===== RODAPÉ ===== */
 footer {
     display: flex;
-    justify-content: space-between;        
+    justify-content: space-between;
     padding: 28px 56px;
     background-color: var(--faixa);
     border-top: 1px solid var(--linha);
