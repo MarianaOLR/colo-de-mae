@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Criar conta · Colo de Mãe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:wght@600&family=Poppins:ital,wght@0,400;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- MENU -->
+    <header>
+      <div class="logo">Colo de Mãe</div>
+      <nav>
+        <a href="index.html">← Voltar para Home</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- FORMULÁRIO DE CADASTRO -->
+      <section class="cadastro">
+        <div class="form-card">
+          <h1>Criar conta</h1>
+          <p class="form-sub">Seu cantinho de memórias começa aqui.</p>
+
+          <label for="ipt_nome">Nome</label>
+          <input
+            type="text"
+            id="ipt_nome"
+            placeholder="Como podemos te chamar?"
+          />
+
+          <label for="ipt_email">Email</label>
+          <input
+            type="text"
+            id="ipt_email"
+            placeholder="seuemail@exemplo.com"
+          />
+
+          <label for="ipt_senha">Senha</label>
+          <input type="password" id="ipt_senha" placeholder="Crie uma senha" />
+
+          <label for="ipt_confirmar">Confirmar senha</label>
+          <input
+            type="password"
+            id="ipt_confirmar"
+            placeholder="Repita sua senha"
+          />
+
+          <div id="div_mensagem"></div>
+
+          <button type="button" class="botao botao-largo" onclick="cadastrar()">
+            Cadastrar
+          </button>
+
+          <p class="form-rodape">
+            Já tenho conta · <a href="login.html"><b>Entrar</b></a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer>
+      <span>Projeto Individual · SPTech · 1ADSA</span>
+      <em>Feito de afeto, para guardar afeto.</em>
+    </footer>
+
+    <script>
+      function cadastrar() {
+        let nome = ipt_nome.value;
+        let email = ipt_email.value;
+        let senha = ipt_senha.value;
+        let confirmar = ipt_confirmar.value;
+
+        let campos = [nome, email, senha, confirmar];
+        let rotulos = ["Nome", "Email", "Senha", "Confirmar senha"];
+        let numeros = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+
+        let mensagem = "";
+        let qtdErros = 0;
+
+        // CAMPOS VAZIOS
+        for (let i = 0; i < campos.length; i++) {
+          if (campos[i] == "") {
+            mensagem += `• Preencha o campo "${rotulos[i]}".<br>`;
+            qtdErros++;
+          }
+        }
+
+        // EMAIL
+        let criteriosEmail =
+          Number(email.includes("@")) + Number(email.includes("."));
+
+        if (email != "" && criteriosEmail < 2) {
+          mensagem +=
+            "• O email precisa ter @ e ponto (ex.: nome@email.com).<br>";
+          qtdErros++;
+        }
+
+        // SENHA
+        let qtdNumeros = 0;
+
+        for (let i = 0; i < numeros.length; i++) {
+          if (senha.includes(numeros[i])) {
+            qtdNumeros++;
+          }
+        }
+
+        let temMaiuscula = Number(senha != senha.toLowerCase());
+
+        if (senha != "" && senha.length < 8) {
+          mensagem += "• A senha precisa ter pelo menos 8 caracteres.<br>";
+          qtdErros++;
+        }
+
+        if (senha != "" && qtdNumeros == 0) {
+          mensagem += "• A senha precisa ter pelo menos 1 número.<br>";
+          qtdErros++;
+        }
+
+        if (senha != "" && temMaiuscula == 0) {
+          mensagem += "• A senha precisa ter pelo menos 1 letra maiúscula.<br>";
+          qtdErros++;
+        }
+
+        // CONFIRMAÇÃO DA SENHA
+        if (confirmar != "" && senha != confirmar) {
+          mensagem += "• As senhas não são iguais.<br>";
+          qtdErros++;
+        }
+
+        // RESULTADO
+        if (qtdErros == 0) {
+          div_mensagem.innerHTML = `<span style="color: green;">Tudo certo, ${nome}! Seus dados foram validados.</span>`;
+        } else {
+          div_mensagem.innerHTML = `<span style="color: red;">${mensagem}</span>`;
+        }
+      }
+    </script>
+  </body>
+</html>
