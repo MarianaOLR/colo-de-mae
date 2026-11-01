@@ -1,0 +1,205 @@
+/* ===== CORES (a paleta do projeto) ===== */
+:root {
+    --creme: #FFF8F0;
+    --faixa: #FBEFE4;
+    --pessego: #F4B6A6;
+    --salvia: #B7CDB0;
+    --amarelo: #F8E3A1;
+    --lilas: #CDBFE3;
+    --texto: #5A3E3E;
+    --linha: #EAD9CF;
+}
+
+/* ===== BASE ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--creme);
+    color: var(--texto);
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+}
+
+h1, h2, h3 {
+    font-family: 'Lora', serif;
+    font-weight: 600;
+}
+
+a { /* links */
+    color: var(--texto);
+    text-decoration: none;
+}
+
+/* ===== MENU ===== */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 56px;
+    border-bottom: 1px solid var(--linha);
+}
+
+.logo {
+    font-family: 'Lora', serif;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+nav a {
+    margin-left: 28px;
+    font-size: 15px;
+}
+
+/* ===== APRESENTAÇÃO ===== */
+.hero {
+    text-align: center;
+    padding: 80px 20px 100px;
+}
+
+.eyebrow {
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.hero h1 {
+    font-size: 84px;
+    margin: 26px 0 30px;
+}
+
+.frase {
+    display: inline-block;
+    background-color: var(--pessego);
+    border-radius: 28px;
+    padding: 14px 34px;
+    font-size: 27px;
+    font-style: italic;
+}
+
+.descricao {
+    max-width: 540px;
+    margin: 34px auto;
+    font-size: 17px;
+    line-height: 1.9;
+}
+
+.botoes {
+    margin-bottom: 30px;
+}
+
+.botao {
+    display: inline-block;
+    padding: 16px 34px;
+    border-radius: 26px;
+    background-color: var(--pessego);
+    font-weight: 600;
+    margin: 0 6px;
+}
+
+.botao-contorno {
+    background-color: transparent;
+    border: 1.5px solid var(--pessego);
+}
+
+.aviso {
+    font-size: 13px;
+}
+
+/* ===== SOBRE O PROJETO ===== */
+.sobre {
+    background-color: var(--faixa);
+    border-top: 1px solid var(--linha); 
+    border-bottom: 1px solid var(--linha);
+    padding: 70px 56px;
+}
+
+.sobre h2 {
+    font-size: 40px;
+    margin-bottom: 22px;
+}
+
+.sobre p {
+    max-width: 640px;  
+    line-height: 1.9;
+    margin-bottom: 16px;
+}
+
+.destaque {
+    font-style: italic;              
+    font-size: 19px;
+}
+
+/* ===== COMO FUNCIONA ===== */
+.como-funciona {
+    text-align: center;
+    padding: 70px 56px;
+}
+
+.como-funciona h2 {
+    font-size: 40px;
+}
+
+.como-funciona > p {
+    margin: 22px 0 42px;
+    font-size: 15px;
+}
+
+.cards {
+    display: flex;
+    gap: 20px;
+}
+
+.card {
+    flex: 1;                               
+    background-color: white;
+    border: 1.5px solid var(--linha);
+    border-radius: 28px;
+    padding: 28px 26px 34px;
+    text-align: left;                      
+}
+
+.card h3 {
+    font-size: 21px;
+    margin-bottom: 12px;
+}
+
+.card p {
+    font-size: 14.5px;
+    line-height: 1.8;
+}
+
+/* ===== SOBRE MIM ===== */
+.sobre-mim {
+    background-color: var(--faixa);
+    border-top: 1px solid var(--linha);
+    padding: 64px 72px;
+}
+
+.sobre-mim h2 {
+    font-size: 40px;
+    margin-bottom: 14px;
+}
+
+.nome {
+    font-weight: 600;                      
+    margin-bottom: 14px;
+}
+
+.sobre-mim p {
+    max-width: 640px;
+    line-height: 1.9;
+}
+
+/* ===== RODAPÉ ===== */
+footer {
+    display: flex;
+    justify-content: space-between;        
+    padding: 28px 56px;
+    background-color: var(--faixa);
+    border-top: 1px solid var(--linha);
+    font-size: 13px;
+}
