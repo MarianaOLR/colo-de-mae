@@ -164,6 +164,19 @@
         qtdErros++;
       }
     }
+    
+    let sentimentoValido = 0;
+
+    for (let i = 0; i < sentimentos.length; i++) {
+      if (sentimento == sentimentos[i]) {
+        sentimentoValido++;
+      }
+    }
+
+    if (sentimentoValido == 0) {
+      mensagem += "• Escolha um sentimento da lista.<br>";
+      qtdErros++;
+    }
 
     if (titulo.length > 50) {
       mensagem += "• O título pode ter no máximo 50 caracteres.<br>";
@@ -225,5 +238,5 @@
     } else {
       div_exibir.innerHTML = `<span style="color: red;">${mensagem}</span>`;
     }
-}
+  }
 </script>
