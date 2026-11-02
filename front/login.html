@@ -122,6 +122,9 @@
               sessionStorage.EMAIL_USUARIO = json.email;
 
               div_mensagem.innerHTML = `<span style="color: green;">Bem-vinda, ${json.nome}!</span>`;
+              setTimeout(function () {
+                window.location = "diario.html";
+              }, 1500);
             });
           } else {
             div_mensagem.innerHTML = `<span style="color: red;">Email e/ou senha inválido(s).</span>`;
