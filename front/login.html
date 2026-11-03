@@ -117,7 +117,7 @@
         .then(function (resposta) {
           if (resposta.ok) {
             resposta.json().then(function (json) {
-              sessionStorage.ID_USUARIO = json.id;
+              sessionStorage.ID_USUARIO = json.id_usuario;
               sessionStorage.NOME_USUARIO = json.nome;
               sessionStorage.EMAIL_USUARIO = json.email;
 
