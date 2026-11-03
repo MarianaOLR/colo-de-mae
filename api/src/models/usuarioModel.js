@@ -9,7 +9,7 @@ function cadastrar(nome, email, senha) {
 
 function autenticar(email, senha) {
     let instrucaoSql = `
-        SELECT id, nome, email FROM usuario WHERE email = '${email}' AND senha = '${senha}';
+        SELECT id_usuario, nome, email FROM usuario WHERE email = '${email}' AND senha = '${senha}';
     `;
     return database.executar(instrucaoSql);
 }

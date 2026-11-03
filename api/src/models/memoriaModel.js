@@ -11,7 +11,7 @@ function cadastrar(titulo, data, descricao, musica, frase, sentimento, foto, fkU
 
 function listar(fkUsuario) {
     let instrucao = `
-        SELECT id, titulo, data, descricao, musica, frase, sentimento, foto
+        SELECT id_memoria, titulo, data, descricao, musica, frase, sentimento, foto
         FROM memoria
         WHERE fk_usuario = ${fkUsuario}
         ORDER BY data DESC;
