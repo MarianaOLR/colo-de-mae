@@ -141,6 +141,8 @@
     }
 
     slt_sentimento.innerHTML = opcoes;
+
+    carregarMemorias();
   }
 
   function salvar() {
@@ -227,6 +229,8 @@
             ipt_musica.value = "";
             ipt_frase.value = "";
             ipt_foto.value = "";
+
+            carregarMemorias();
           } else {
             div_exibir.innerHTML = `<span style="color: red;">Não foi possível salvar. Tente novamente.</span>`;
           }
@@ -239,4 +243,36 @@
       div_exibir.innerHTML = `<span style="color: red;">${mensagem}</span>`;
     }
   }
+
+  function carregarMemorias() {
+    let fkUsuario = sessionStorage.ID_USUARIO;
+
+    fetch(`/memorias/listar/${fkUsuario}`).then(function (resposta) {
+        if (resposta.ok) {
+            resposta.json().then(function (memorias) {
+                let cartoes = "";
+
+                if (memorias.length == 0) {
+                    cartoes = "<p>Você ainda não guardou nenhuma memória.</p>";
+                }
+
+                for (let i = 0; i < memorias.length; i++) {
+                    let partes = memorias[i].data.split("T")[0].split("-");
+                    let dataBr = `${partes[2]}/${partes[1]}/${partes[0]}`;
+
+                    cartoes += `
+                        <div class="memoria-card">
+                            <span class="memoria-data">${dataBr}</span>
+                            <h3>${memorias[i].titulo}</h3>
+                            <span class="memoria-sentimento">${memorias[i].sentimento}</span>
+                            <p>${memorias[i].frase}</p>
+                        </div>
+                    `;
+                }
+
+                div_memorias.innerHTML = cartoes;
+            });
+        }
+    });
+}
 </script>
