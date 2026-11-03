@@ -8,6 +8,18 @@ function cadastrar(titulo, data, descricao, musica, frase, sentimento, foto, fkU
     return database.executar(instrucaoSql);
 }
 
+
+function listar(fkUsuario) {
+    let instrucao = `
+        SELECT id, titulo, data, descricao, musica, frase, sentimento, foto
+        FROM memoria
+        WHERE fk_usuario = ${fkUsuario}
+        ORDER BY data DESC;
+    `;
+    return database.executar(instrucao);
+}
+
 module.exports = {
-    cadastrar
+    cadastrar,
+    listar
 };
