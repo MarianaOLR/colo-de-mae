@@ -1,15 +1,16 @@
+DROP DATABASE IF EXISTS colo_de_mae;
 CREATE DATABASE colo_de_mae;
 USE colo_de_mae;
 
 CREATE TABLE usuario (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_usuario INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(50),
     email VARCHAR(50),
     senha VARCHAR(50)
 );
 
 CREATE TABLE memoria (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_memoria INT PRIMARY KEY AUTO_INCREMENT,
     titulo VARCHAR(50),
     data DATE,
     descricao VARCHAR(500),
@@ -18,7 +19,20 @@ CREATE TABLE memoria (
     sentimento VARCHAR(20),
     foto VARCHAR(255),
     fk_usuario INT,
-    FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
+    FOREIGN KEY (fk_usuario) REFERENCES usuario(id_usuario)
+);
+
+CREATE TABLE colo (
+    id_colo INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(45)
+);
+
+CREATE TABLE memoria_colo (
+    fk_memoria INT,
+    fk_colo INT,
+    PRIMARY KEY (fk_memoria, fk_colo),
+    FOREIGN KEY (fk_memoria) REFERENCES memoria(id_memoria),
+    FOREIGN KEY (fk_colo) REFERENCES colo(id_colo)
 );
 
 SHOW TABLES;
@@ -37,10 +51,29 @@ INSERT INTO memoria (titulo, data, descricao, musica, frase, sentimento, foto, f
 ('Dia das Mães', '2026-05-10', 'Bolo e flores para a mamãe', 'Super Mãe', 'Obrigada por tudo', 'Amor', 'https://exemplo.com/maes2.jpg', 3),
 ('Festa junina', '2026-06-13', 'Quadrilha na escola, lembrei da infância', 'Flor de tangerina', 'Que saudade daquele tempo', 'Saudade', 'https://exemplo.com/junina.jpg', 3);
 
+INSERT INTO colo (nome) VALUES
+('Mãe'), ('Pai'), ('Avó'), ('Irmã'), ('Amiga'), ('Namorado'), ('Eu mesma');
+
+INSERT INTO memoria_colo (fk_memoria, fk_colo) VALUES
+(1, 1), (1, 3),
+(2, 4),
+(3, 5),
+(4, 1), (4, 3),
+(5, 1), (5, 2),
+(6, 1),
+(7, 3), (7, 4);
+
 SELECT * FROM usuario;
 SELECT * FROM memoria;
+SELECT * FROM colo;
+SELECT * FROM memoria_colo;
 
 SELECT usuario.nome, memoria.titulo, memoria.data
 FROM usuario
 JOIN memoria
-ON usuario.id = memoria.fk_usuario;
+ON usuario.id_usuario = memoria.fk_usuario;
+
+SELECT memoria.titulo, colo.nome AS colo
+FROM memoria
+JOIN memoria_colo ON memoria.id_memoria = memoria_colo.fk_memoria
+JOIN colo ON colo.id_colo = memoria_colo.fk_colo;
