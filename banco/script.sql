@@ -52,16 +52,16 @@ INSERT INTO memoria (titulo, data, descricao, musica, frase, sentimento, foto, f
 ('Festa junina', '2026-06-13', 'Quadrilha na escola, lembrei da infância', 'Flor de tangerina', 'Que saudade daquele tempo', 'Saudade', 'https://exemplo.com/junina.jpg', 3);
 
 INSERT INTO colo (nome) VALUES
-('Mãe'), ('Pai'), ('Avó'), ('Irmã'), ('Amiga'), ('Namorado'), ('Eu mesma');
+('Mãe'), ('Amiga'), ('Namorado'), ('Eu mesma');
 
 INSERT INTO memoria_colo (fk_memoria, fk_colo) VALUES
-(1, 1), (1, 3),
+(1, 1),
 (2, 4),
-(3, 5),
-(4, 1), (4, 3),
-(5, 1), (5, 2),
+(3, 2),
+(4, 1), (4, 4),
+(5, 1),
 (6, 1),
-(7, 3), (7, 4);
+(7, 1), (7, 2);
 
 SELECT * FROM usuario;
 SELECT * FROM memoria;
