@@ -27,10 +27,15 @@ function ligarColos(fkMemoria, colos) {
 
 function listar(fkUsuario) {
     let instrucao = `
-        SELECT id_memoria, titulo, data, descricao, musica, frase, sentimento, foto
+        SELECT memoria.id_memoria, memoria.titulo, memoria.data, memoria.descricao,
+               memoria.musica, memoria.frase, memoria.sentimento, memoria.foto,
+               GROUP_CONCAT(colo.nome SEPARATOR ', ') AS colos
         FROM memoria
-        WHERE fk_usuario = ${fkUsuario}
-        ORDER BY data DESC;
+        LEFT JOIN memoria_colo ON memoria.id_memoria = memoria_colo.fk_memoria
+        LEFT JOIN colo ON colo.id_colo = memoria_colo.fk_colo
+        WHERE memoria.fk_usuario = ${fkUsuario}
+        GROUP BY memoria.id_memoria
+        ORDER BY memoria.data DESC;
     `;
     return database.executar(instrucao);
 }

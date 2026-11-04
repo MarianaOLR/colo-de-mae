@@ -300,6 +300,11 @@
                 for (let i = 0; i < memorias.length; i++) {
                     let partes = memorias[i].data.split("T")[0].split("-");
                     let dataBr = `${partes[2]}/${partes[1]}/${partes[0]}`;
+                    let linhaColos = "";
+
+                    if (memorias[i].colos != null) {
+                        linhaColos = `<p class="memoria-colos">Seu colo: ${memorias[i].colos}</p>`;
+                    }
 
                     cartoes += `
                         <div class="memoria-card">
@@ -307,6 +312,7 @@
                             <h3>${memorias[i].titulo}</h3>
                             <span class="memoria-sentimento">${memorias[i].sentimento}</span>
                             <p>${memorias[i].frase}</p>
+                            ${linhaColos}
                         </div>
                     `;
                 }
