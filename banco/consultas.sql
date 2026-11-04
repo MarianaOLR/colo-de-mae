@@ -28,3 +28,12 @@ SELECT colo.nome
 FROM colo
 LEFT JOIN memoria_colo ON colo.id_colo = memoria_colo.fk_colo
 WHERE memoria_colo.fk_colo IS NULL;
+
+-- Consulta a tabela do meio, das ligações mais novas até as mais antigas
+SELECT * FROM memoria_colo ORDER BY fk_memoria DESC;
+-- Mesma coisa, mas trocando os números por palavras
+SELECT memoria.titulo, colo.nome AS colo
+FROM memoria
+JOIN memoria_colo ON memoria.id_memoria = memoria_colo.fk_memoria
+JOIN colo ON colo.id_colo = memoria_colo.fk_colo
+ORDER BY memoria.id_memoria DESC;
