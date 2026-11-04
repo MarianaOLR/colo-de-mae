@@ -8,6 +8,22 @@ function cadastrar(titulo, data, descricao, musica, frase, sentimento, foto, fkU
     return database.executar(instrucaoSql);
 }
 
+function ligarColos(fkMemoria, colos) {
+    let valores = "";
+
+    for (let i = 0; i < colos.length; i++) {
+        if (i > 0) {
+            valores += ", ";
+        }
+        valores += `(${fkMemoria}, ${colos[i]})`;
+    }
+
+    let instrucaoSql = `
+        INSERT INTO memoria_colo (fk_memoria, fk_colo) VALUES ${valores};
+    `;
+    return database.executar(instrucaoSql);
+}
+
 
 function listar(fkUsuario) {
     let instrucao = `
@@ -21,5 +37,6 @@ function listar(fkUsuario) {
 
 module.exports = {
     cadastrar,
+    ligarColos,
     listar
 };
