@@ -544,3 +544,246 @@ footer {
     border-radius: 12px;
     margin-top: 14px;
 }
+
+/* CURSOR DO CAMPO DE DATA */
+#ipt_data {
+    cursor: text;
+}
+
+#ipt_data::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}
+
+.grafico-caixa {
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+/* ===== DASHBOARD ===== */
+.dash {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 48px 32px 64px;
+}
+
+.dash .eyebrow {
+    color: #7A5C54;
+}
+
+.dash h1 {
+    font-size: 56px;
+    line-height: 1.1;
+    margin: 8px 0 8px;
+}
+
+.dash-sub {
+    font-size: 16px;
+    margin-bottom: 36px;
+}
+
+/* cartão branco, usado em todas as caixas */
+.cartao {
+    background: #FFFFFF;
+    border: 1px solid #EBD5C6;
+    border-radius: 28px;
+    padding: 30px 32px;
+    min-width: 0;
+}
+
+.cartao h2 {
+    font-size: 30px;
+    margin-bottom: 6px;
+}
+
+.cartao-sub {
+    font-size: 14px;
+    color: #7A5C54;
+    margin-bottom: 28px;
+}
+
+/* KPIs */
+.dash-kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.kpi {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    border-radius: 24px;
+    padding: 26px 28px;
+}
+
+.kpi-titulo {
+    font-size: 14px;
+}
+
+.kpi-valor {
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 1;
+}
+
+.kpi-detalhe {
+    font-size: 14px;
+    color: #7A5C54;
+}
+
+/* título "As histórias do seu diário" */
+.dash-titulo-linha {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 16px;
+    font-size: 15px;
+}
+
+.dash-titulo-linha span:last-child {
+    font-size: 14px;
+    color: #7A5C54;
+}
+
+/* duas caixas lado a lado */
+.dash-linha {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.cartao-meses {
+    flex: 1.25 1 440px;
+}
+
+.cartao-sentimentos {
+    flex: 1 1 340px;
+}
+
+.cartao-aleatoria {
+    flex: 1.15 1 440px;
+}
+
+.cartao-colos {
+    flex: 1 1 340px;
+}
+
+/* gráficos */
+.grafico-caixa-larga {
+    position: relative;
+    height: 240px;
+}
+
+.cartao-sentimentos .grafico-caixa {
+    max-width: 280px;
+}
+
+/* frase de baixo do gráfico de meses */
+.dash-pilula {
+    margin-top: 26px;
+    background: #F2B5A4;
+    border-radius: 999px;
+    padding: 14px 22px;
+    font-size: 14px;
+}
+
+.dash-pilula:empty {
+    display: none;
+}
+
+/* faixa final */
+.dash-frase {
+    background: #FBEFE3;
+    border-radius: 28px;
+    padding: 34px 36px;
+}
+
+.dash-frase h2 {
+    font-size: 28px;
+    line-height: 1.25;
+    margin-bottom: 14px;
+}
+
+.dash-frase p {
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* CARD DA MEMÓRIA SORTEADA */
+.cartao-aleatoria {
+    display: flex;
+    flex-direction: column;
+}
+
+#div_aleatoria {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.aleatoria-caixa {
+    flex: 1;
+    background: #FBEFE3;
+    border-radius: 22px;
+    padding: 24px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.aleatoria-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.aleatoria-data {
+    font-size: 13px;
+    color: #7A5C54;
+}
+
+.aleatoria-pilula {
+    padding: 4px 16px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #FBDDD2;
+}
+
+.aleatoria-pilula[data-sentimento="Amor"] { background: #F2B5A4; }
+.aleatoria-pilula[data-sentimento="Alegria"] { background: #F6E3A0; }
+.aleatoria-pilula[data-sentimento="Gratidão"] { background: #A9C4A0; }
+.aleatoria-pilula[data-sentimento="Saudade"] { background: #D0C4E8; }
+
+.aleatoria-caixa h3 {
+    font-size: 24px;
+}
+
+.aleatoria-descricao {
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.aleatoria-frase {
+    font-size: 15px;
+    font-style: italic;
+}
+
+.aleatoria-musica {
+    font-size: 13px;
+    color: #7A5C54;
+}
+
+.aleatoria-botao {
+    align-self: flex-start;
+    margin-top: 20px;
+    padding: 13px 28px;
+    border-radius: 999px;
+    background: #F2B5A4;
+    font-size: 14px;
+    font-weight: 600;
+}
