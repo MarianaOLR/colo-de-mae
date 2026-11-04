@@ -122,11 +122,19 @@
       <span>Projeto Individual · SPTech · 1ADSA</span>
       <i>Feito de afeto, para guardar afeto.</i>
     </footer>
+
+    <div id="modal_memoria" class="modal-fundo">
+      <div class="modal-caixa">
+        <button class="modal-fechar" onclick="fecharModal()">✕</button>
+        <div id="div_modal"></div>
+      </div>
+    </div>
   </body>
 </html>
 
 <script>
   let sentimentos = ["Amor", "Alegria", "Gratidão", "Saudade"];
+  let listaMemorias = [];
 
   function carregarPagina() {
     let nome = sessionStorage.NOME_USUARIO;
@@ -291,6 +299,8 @@
     fetch(`/memorias/listar/${fkUsuario}`).then(function (resposta) {
         if (resposta.ok) {
             resposta.json().then(function (memorias) {
+                listaMemorias = memorias;
+
                 let cartoes = "";
 
                 if (memorias.length == 0) {
@@ -307,7 +317,7 @@
                     }
 
                     cartoes += `
-                        <div class="memoria-card">
+                        <div class="memoria-card" data-sentimento="${memorias[i].sentimento}" onclick="abrirModal(${i})">
                             <span class="memoria-data">${dataBr}</span>
                             <h3>${memorias[i].titulo}</h3>
                             <span class="memoria-sentimento">${memorias[i].sentimento}</span>
@@ -322,4 +332,43 @@
         }
     });
 }
+function abrirModal(i) {
+    let memoria = listaMemorias[i];
+
+    let partes = memoria.data.split("T")[0].split("-");
+    let dataBr = `${partes[2]}/${partes[1]}/${partes[0]}`;
+
+    let linhaMusica = "";
+    let linhaFoto = "";
+    let linhaColos = "";
+
+    if (memoria.musica != null && memoria.musica != "") {
+      linhaMusica = `<p><b>Música:</b> ${memoria.musica}</p>`;
+    }
+
+    if (memoria.foto != null && memoria.foto != "") {
+      linhaFoto = `<img class="modal-foto" src="${memoria.foto}">`;
+    }
+
+    if (memoria.colos != null) {
+      linhaColos = `<p class="memoria-colos">Seu colo: ${memoria.colos}</p>`;
+    }
+
+    div_modal.innerHTML = `
+      <span class="memoria-data">${dataBr}</span>
+      <h3>${memoria.titulo}</h3>
+      <span class="memoria-sentimento">${memoria.sentimento}</span>
+      <p>${memoria.descricao}</p>
+      ${linhaMusica}
+      <p><i>"${memoria.frase}"</i></p>
+      ${linhaColos}
+      ${linhaFoto}
+    `;
+
+    modal_memoria.style.display = "flex";
+  }
+
+  function fecharModal() {
+    modal_memoria.style.display = "none";
+  }
 </script>

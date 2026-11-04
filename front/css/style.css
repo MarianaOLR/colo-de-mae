@@ -437,3 +437,110 @@ footer {
     margin: 0;
     accent-color: #E8A798;
 }
+
+/* CARDS DAS MEMÓRIAS */
+#div_memorias {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.memoria-card {
+    background: #FFFFFF;
+    border: 1px solid #EBD5C6;
+    border-left: 6px solid #E8A798;
+    border-radius: 16px;
+    padding: 18px 22px;
+    cursor: pointer;
+}
+
+.memoria-card h3 {
+    font-family: 'Lora', serif;
+    font-size: 20px;
+    color: #5A3E3E;
+    margin: 6px 0 10px;
+}
+
+.memoria-card p {
+    margin: 10px 0 0;
+    font-size: 14px;
+    color: #5A3E3E;
+}
+
+.memoria-card .memoria-colos {
+    font-style: italic;
+    color: #8A6B6B;
+}
+
+.memoria-data {
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: #9A7B72;
+}
+
+.memoria-sentimento {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #5A3E3E;
+    background: #FBE3D6;
+    margin-left: 0px;
+}
+
+/* Cor de cada sentimento */
+.memoria-card[data-sentimento="Amor"] { border-left-color: #F2B5A4; }
+.memoria-card[data-sentimento="Amor"] .memoria-sentimento { background: #FBDDD2; }
+
+.memoria-card[data-sentimento="Alegria"] { border-left-color: #F0CF6A; }
+.memoria-card[data-sentimento="Alegria"] .memoria-sentimento { background: #FBEFC0; }
+
+.memoria-card[data-sentimento="Gratidão"] { border-left-color: #A9C4A0; }
+.memoria-card[data-sentimento="Gratidão"] .memoria-sentimento { background: #DCE9D6; }
+
+.memoria-card[data-sentimento="Saudade"] { border-left-color: #B7A5D6; }
+.memoria-card[data-sentimento="Saudade"] .memoria-sentimento { background: #E6DDF2; }
+
+/* MODAL DA MEMÓRIA */
+.modal-fundo {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(90, 62, 62, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.modal-caixa {
+    position: relative;
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 28px;
+    width: 90%;
+    max-width: 480px;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.modal-fechar {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #9A7B72;
+    cursor: pointer;
+}
+
+.modal-foto {
+    width: 100%;
+    border-radius: 12px;
+    margin-top: 14px;
+}
