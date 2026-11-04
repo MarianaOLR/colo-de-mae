@@ -409,3 +409,31 @@ footer {
 .lista-memorias h2 {
     font-size: 34px;
 }
+
+/* COLOS (caixinhas de marcar) */
+.opcoes-colo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.form-card .opcao-colo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 8px 14px;
+    border: 1px solid #EBD5C6;
+    border-radius: 999px;
+    background: #FFF8F0;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.form-card .opcao-colo input {
+    width: auto;
+    margin: 0;
+    accent-color: #E8A798;
+}

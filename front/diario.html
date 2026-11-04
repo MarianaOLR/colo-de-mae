@@ -97,6 +97,9 @@
           <label for="slt_sentimento">Sentimento</label>
           <select id="slt_sentimento"></select>
 
+          <label>Você se sentiu no colo de quem?</label>
+          <div id="div_colos" class="opcoes-colo"></div>
+
           <label for="ipt_foto">Link da foto</label>
           <input type="text" id="ipt_foto" placeholder="https://..." />
 
@@ -143,6 +146,28 @@
     slt_sentimento.innerHTML = opcoes;
 
     carregarMemorias();
+    carregarColos();
+  }
+
+    function carregarColos() {
+    fetch("/colos/listar").then(function (resposta) {
+      if (resposta.ok) {
+        resposta.json().then(function (colos) {
+          let caixinhas = "";
+
+          for (let i = 0; i < colos.length; i++) {
+            caixinhas += `
+              <label class="opcao-colo">
+                <input type="checkbox" name="colo" value="${colos[i].id_colo}">
+                ${colos[i].nome}
+              </label>
+            `;
+          }
+
+          div_colos.innerHTML = caixinhas;
+        });
+      }
+    });
   }
 
   function salvar() {
@@ -153,6 +178,15 @@
     let frase = ipt_frase.value;
     let sentimento = slt_sentimento.value;
     let foto = ipt_foto.value;
+
+    let caixinhas = document.getElementsByName("colo");
+    let colosMarcados = [];
+
+    for (let i = 0; i < caixinhas.length; i++) {
+      if (caixinhas[i].checked) {
+        colosMarcados.push(caixinhas[i].value);
+      }
+    }
 
     let campos = [titulo, data, descricao, sentimento];
     let rotulos = ["Título", "Data", "Descrição", "Sentimento"];
@@ -173,6 +207,11 @@
       if (sentimento == sentimentos[i]) {
         sentimentoValido++;
       }
+    }
+
+    if (colosMarcados.length == 0) {
+      mensagem += "• Escolha pelo menos um colo.<br>";
+      qtdErros++;
     }
 
     if (sentimentoValido == 0) {
@@ -217,6 +256,7 @@
           sentimentoServer: sentimento,
           fotoServer: foto,
           fkUsuarioServer: sessionStorage.ID_USUARIO,
+          colosServer: colosMarcados,
         }),
       })
         .then(function (resposta) {
@@ -231,6 +271,7 @@
             ipt_foto.value = "";
 
             carregarMemorias();
+            carregarColos();
           } else {
             div_exibir.innerHTML = `<span style="color: red;">Não foi possível salvar. Tente novamente.</span>`;
           }
