@@ -787,3 +787,30 @@ footer {
     font-size: 14px;
     font-weight: 600;
 }
+
+/* LINHAS DO CARD "O QUE CADA COLO DESPERTA" */
+.colo-linha {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 0;
+    border-bottom: 1px solid #EBD5C6;
+}
+
+.colo-linha:last-child {
+    border-bottom: none;
+}
+
+.colo-nome {
+    font-weight: 600;
+    font-size: 17px;
+}
+
+.colo-traz {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: #7A5C54;
+}

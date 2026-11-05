@@ -123,6 +123,9 @@
   </body>
 </html>
 <script>
+  let siglasMeses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+  let nomesMeses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+
   function carregarPagina() {
     let nome = sessionStorage.NOME_USUARIO;
 
@@ -130,8 +133,23 @@
       window.location = "login.html";
     }
 
+    obterResumo();
     obterSentimentos();
     obterAleatoria();
+    obterMeses();
+    obterColosSentimentos();
+  }
+
+  function obterResumo() {
+    let fkUsuario = sessionStorage.ID_USUARIO;
+
+    fetch(`/indicadores/resumo/${fkUsuario}`).then(function (resposta) {
+      if (resposta.ok) {
+        resposta.json().then(function (dados) {
+          mostrarResumo(dados);
+        });
+      }
+    });
   }
 
   function obterSentimentos() {
@@ -156,6 +174,121 @@
         });
       }
     });
+  }
+
+  function obterMeses() {
+    let fkUsuario = sessionStorage.ID_USUARIO;
+
+    fetch(`/indicadores/meses/${fkUsuario}`).then(function (resposta) {
+      if (resposta.ok) {
+        resposta.json().then(function (dados) {
+          plotarMeses(dados);
+        });
+      }
+    });
+  }
+
+  function obterColos(totalMemorias) {
+    let fkUsuario = sessionStorage.ID_USUARIO;
+
+    fetch(`/indicadores/colos/${fkUsuario}`).then(function (resposta) {
+      if (resposta.ok) {
+        resposta.json().then(function (dados) {
+          mostrarColoMaisPresente(dados, totalMemorias);
+        });
+      }
+    });
+  }
+
+  function obterColosSentimentos() {
+    let fkUsuario = sessionStorage.ID_USUARIO;
+
+    fetch(`/indicadores/colos-sentimentos/${fkUsuario}`).then(function (resposta) {
+      if (resposta.ok) {
+        resposta.json().then(function (dados) {
+          mostrarColosSentimentos(dados);
+        });
+      }
+    });
+  }
+
+  function mostrarResumo(dados) {
+    let resumo = dados[0];
+
+    if (resumo.total == 0) {
+      kpi_total.innerHTML = "0";
+      kpi_total_detalhe.innerHTML = "Registre sua primeira memória";
+    } else {
+      let partesPrimeira = resumo.primeira.split("T")[0].split("-");
+      let partesUltima = resumo.ultima.split("T")[0].split("-");
+
+      let mesPrimeira = Number(partesPrimeira[1]) - 1;
+      let mesUltima = Number(partesUltima[1]) - 1;
+
+      let periodo = "";
+
+      if (mesPrimeira == mesUltima && partesPrimeira[0] == partesUltima[0]) {
+        periodo = `Em ${nomesMeses[mesPrimeira].toLowerCase()}`;
+      } else {
+        periodo = `De ${nomesMeses[mesPrimeira].toLowerCase()} a ${nomesMeses[mesUltima].toLowerCase()}`;
+      }
+
+      let textoDias = "";
+
+      if (resumo.dias <= 0) {
+        textoDias = "a última foi hoje";
+      } else if (resumo.dias == 1) {
+        textoDias = "a última foi ontem";
+      } else {
+        textoDias = `a última foi há ${resumo.dias} dias`;
+      }
+
+      kpi_total.innerHTML = resumo.total;
+      kpi_total_detalhe.innerHTML = `${periodo} · ${textoDias}`;
+      span_periodo.innerHTML = `${siglasMeses[mesPrimeira]} ${partesPrimeira[0]} — ${siglasMeses[mesUltima]} ${partesUltima[0]}`;
+
+      obterColos(resumo.total);
+    }
+  }
+
+  function mostrarColoMaisPresente(dados, totalMemorias) {
+    if (dados.length > 0) {
+      let palavra = "memórias";
+
+      if (dados[0].total == 1) {
+        palavra = "memória";
+      }
+
+      let porcentagem = Math.round((dados[0].total / totalMemorias) * 100);
+
+      kpi_colo.innerHTML = dados[0].nome;
+      kpi_colo_detalhe.innerHTML = `${dados[0].total} ${palavra} · ${porcentagem}% do diário`;
+    }
+  }
+
+  function mostrarColosSentimentos(dados) {
+    let linhas = "";
+    let nomeAnterior = "";
+
+    for (let i = 0; i < dados.length; i++) {
+      if (dados[i].nome != nomeAnterior) {
+        linhas += `
+          <div class="colo-linha">
+            <span class="colo-nome">${dados[i].nome}</span>
+            <span class="colo-traz">traz mais
+              <span class="aleatoria-pilula" data-sentimento="${dados[i].sentimento}">${dados[i].sentimento}</span>
+            </span>
+          </div>
+        `;
+        nomeAnterior = dados[i].nome;
+      }
+    }
+
+    if (linhas == "") {
+      linhas = `<p>Marque quem foi o seu colo nas memórias para ver aqui.</p>`;
+    }
+
+    div_colos.innerHTML = linhas;
   }
 
   function mostrarAleatoria(dados) {
@@ -192,3 +325,103 @@
       `;
     }
   }
+
+  function plotarMeses(dados) {
+    let totais = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+    for (let i = 0; i < dados.length; i++) {
+      totais[dados[i].mes - 1] = dados[i].total;
+    }
+
+    let maior = 0;
+    let posicaoMaior = 0;
+    let empates = 0;
+
+    for (let i = 0; i < totais.length; i++) {
+      if (totais[i] > maior) {
+        maior = totais[i];
+        posicaoMaior = i;
+        empates = 1;
+      } else if (totais[i] == maior && maior > 0) {
+        empates++;
+      }
+    }
+
+    if (maior > 0) {
+      let palavra = "registros";
+
+      if (maior == 1) {
+        palavra = "registro";
+      }
+
+      if (empates == 1) {
+        p_frase_meses.innerHTML = `${nomesMeses[posicaoMaior]} foi o mês com mais memórias: ${maior} ${palavra}.`;
+      } else {
+        p_frase_meses.innerHTML = `${empates} meses empataram com ${maior} ${palavra} cada.`;
+      }
+    }
+
+    new Chart(cnv_meses, {
+      type: "bar",
+      data: {
+        labels: siglasMeses,
+        datasets: [{ data: totais, backgroundColor: "#F2B5A4", borderRadius: 8 }],
+      },
+      options: {
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
+      },
+    });
+  }
+
+  function plotarSentimentos(dados) {
+    let soma = 0;
+
+    for (let i = 0; i < dados.length; i++) {
+      soma += dados[i].total;
+    }
+
+    if (dados.length > 0) {
+      let palavra = "memórias";
+
+      if (dados[0].total == 1) {
+        palavra = "memória";
+      }
+
+      let porcentagemMaior = Math.round((dados[0].total / soma) * 100);
+
+      kpi_sentimento.innerHTML = dados[0].sentimento;
+      kpi_sentimento_detalhe.innerHTML = `${dados[0].total} ${palavra} · ${porcentagemMaior}% do diário`;
+    }
+
+    let nomes = [];
+    let totais = [];
+    let cores = [];
+
+    for (let i = 0; i < dados.length; i++) {
+      let porcentagem = Math.round((dados[i].total / soma) * 100);
+
+      nomes.push(`${dados[i].sentimento} (${porcentagem}%)`);
+      totais.push(dados[i].total);
+
+      if (dados[i].sentimento == "Amor") {
+        cores.push("#F2B5A4");
+      } else if (dados[i].sentimento == "Alegria") {
+        cores.push("#F0CF6A");
+      } else if (dados[i].sentimento == "Gratidão") {
+        cores.push("#A9C4A0");
+      } else {
+        cores.push("#B7A5D6");
+      }
+    }
+
+    new Chart(cnv_sentimentos, {
+      type: "doughnut",
+      data: {
+        labels: nomes,
+        datasets: [{ data: totais, backgroundColor: cores }],
+      },
+    });
+  }
+</script>
