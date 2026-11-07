@@ -70,7 +70,10 @@
       <section class="diario">
         <!-- FORMULÁRIO NOVO MOMENTO -->
         <div class="form-card">
-          <h2>Novo momento</h2>
+          <div class="form-titulo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5A3E3E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
+            <h2>Novo momento</h2>
+          </div>
           <p class="form-sub">
             Não precisa ser extraordinário. Só precisa ter feito bem.
           </p>
@@ -136,7 +139,11 @@
 
         <!-- LISTA DE MEMÓRIAS -->
         <div class="lista-memorias">
-          <h2>Minhas memórias</h2>
+          <div class="lista-topo">
+            <h2>Minhas memórias</h2>
+            <span id="span_total"></span>
+          </div>
+          <p class="lista-sub">Mais recentes primeiro · carinho em cada registro.</p>
           <div id="div_memorias"></div>
         </div>
       </section>
@@ -152,6 +159,25 @@
       <div class="modal-caixa">
         <button class="modal-fechar" onclick="fecharModal()">✕</button>
         <div id="div_modal"></div>
+      </div>
+    </div>
+
+    <!-- FOTO EM TAMANHO GRANDE -->
+    <div id="modal_foto" class="modal-fundo" onclick="fecharFoto()">
+      <button class="modal-fechar">✕</button>
+      <img id="img_foto_grande" class="foto-grande" />
+    </div>
+
+    <!-- CONFIRMAR EXCLUSÃO DA MEMÓRIA -->
+    <div id="modal_confirmar" class="modal-fundo" onclick="fecharConfirmar()">
+      <div class="modal-confirmar" onclick="event.stopPropagation()">
+        <h3>Apagar esta memória?</h3>
+        <p id="texto_confirmar"></p>
+        <span id="aviso_confirmar"></span>
+        <div class="confirmar-botoes">
+          <button class="botao-cancelar" onclick="fecharConfirmar()">Cancelar</button>
+          <button class="botao-apagar" onclick="apagarMemoria()">Apagar</button>
+        </div>
       </div>
     </div>
 
@@ -624,6 +650,14 @@
       qtdErros++;
     }
 
+    if (foto.includes("data:image")) {
+      mensagem += "• Cole o endereço (link) da foto, não a imagem em si.<br>";
+      qtdErros++;
+    } else if (foto.length > 255) {
+      mensagem += "• O link da foto pode ter no máximo 255 caracteres.<br>";
+      qtdErros++;
+    }
+
     if (qtdErros == 0) {
       div_exibir.innerHTML = `<span style="color: green;">Salvando...</span>`;
 
@@ -688,6 +722,69 @@
 
           let cartoes = "";
 
+          // contagem ao lado do título
+          let textoTotal = `${memorias.length} memórias`;
+
+          if (memorias.length == 1) {
+            textoTotal = "1 memória";
+          }
+
+          span_total.innerHTML = textoTotal;
+
+          if (memorias.length == 0) {
+            cartoes = "<p>Você ainda não guardou nenhuma memória.</p>";
+          }
+
+          for (let i = 0; i < memorias.length; i++) {
+            let partes = memorias[i].data.split("T")[0].split("-");
+            let dataExtenso = `${partes[2]} ${siglasMeses[Number(partes[1]) - 1]} ${partes[0]}`;
+            let linhaMusica = "";
+            let linhaColos = "";
+
+            if (memorias[i].musica != null && memorias[i].musica != "") {
+              linhaMusica = `
+                <p class="memoria-musica">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5A3E3E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
+                  ${memorias[i].musica}
+                </p>
+              `;
+            }
+
+            if (memorias[i].colos != null) {
+              linhaColos = `<p class="memoria-colos">Seu colo: ${memorias[i].colos}</p>`;
+            }
+
+            cartoes += `
+              <div class="memoria-card" onclick="abrirModal(${i})">
+                <div class="memoria-topo">
+                  <span class="memoria-data">${dataExtenso}</span>
+                  <div class="memoria-pilulas">
+                    <span class="memoria-sentimento" data-sentimento="${memorias[i].sentimento}">${memorias[i].sentimento}</span>
+                    <button class="memoria-lixeira" onclick="pedirExclusao(event, ${i})">${iconeLixeira}</button>
+                  </div>
+                </div>
+                <h3>${memorias[i].titulo}</h3>
+                <p>“${memorias[i].frase}”</p>
+                ${linhaMusica}
+                ${linhaColos}
+              </div>
+            `;
+          }
+
+          div_memorias.innerHTML = cartoes;
+        });
+      }
+    });
+  }
+    let fkUsuario = sessionStorage.ID_USUARIO;
+
+    fetch(`/memorias/listar/${fkUsuario}`).then(function (resposta) {
+      if (resposta.ok) {
+        resposta.json().then(function (memorias) {
+          listaMemorias = memorias;
+
+          let cartoes = "";
+
           if (memorias.length == 0) {
             cartoes = "<p>Você ainda não guardou nenhuma memória.</p>";
           }
@@ -720,7 +817,7 @@
         });
       }
     });
-  }
+
 
   function abrirModal(i) {
     let memoria = listaMemorias[i];
@@ -737,7 +834,7 @@
     }
 
     if (memoria.foto != null && memoria.foto != "") {
-      linhaFoto = `<img class="modal-foto" src="${memoria.foto}" onerror="this.style.display = 'none'">`;
+      linhaFoto = `<img class="modal-foto" src="${memoria.foto}" onclick="abrirFoto(${i})" onerror="this.style.display = 'none'">`;
     }
 
     if (memoria.colos != null) {
@@ -762,5 +859,50 @@
 
   function fecharModal() {
     modal_memoria.style.display = "none";
+  }
+
+  // abre a foto em tamanho grande
+  function abrirFoto(i) {
+    img_foto_grande.src = listaMemorias[i].foto;
+    modal_foto.style.display = "flex";
+  }
+
+  function fecharFoto() {
+    modal_foto.style.display = "none";
+  }
+
+  let memoriaParaApagar = 0;
+
+  // abre a caixa de confirmação
+  function pedirExclusao(evento, i) {
+    evento.stopPropagation();
+
+    memoriaParaApagar = listaMemorias[i].id_memoria;
+    texto_confirmar.innerHTML = `"${listaMemorias[i].titulo}" será apagada para sempre.`;
+    aviso_confirmar.innerHTML = "";
+    modal_confirmar.style.display = "flex";
+  }
+
+  function fecharConfirmar() {
+    modal_confirmar.style.display = "none";
+  }
+
+  // apaga de verdade depois do "Apagar"
+  function apagarMemoria() {
+    fetch(`/memorias/excluir/${memoriaParaApagar}/${sessionStorage.ID_USUARIO}`, {
+      method: "DELETE",
+    })
+      .then(function (resposta) {
+        if (resposta.ok) {
+          fecharConfirmar();
+          carregarMemorias();
+        } else {
+          aviso_confirmar.innerHTML = `<span style="color: red;">• Não foi possível apagar. Tente novamente.</span>`;
+        }
+      })
+      .catch(function (erro) {
+        console.log(erro);
+        aviso_confirmar.innerHTML = `<span style="color: red;">• Não foi possível apagar. Tente novamente.</span>`;
+      });
   }
 </script>

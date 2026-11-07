@@ -94,7 +94,10 @@
 
       <div class="dash-titulo-linha">
         <span><b>As histórias do seu diário</b></span>
-        <span id="span_periodo"></span>
+        <span class="dash-periodo">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7A5C54" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+          <span id="span_periodo"></span>
+        </span>
       </div>
 
       <div class="dash-linha">
@@ -104,15 +107,26 @@
           <div class="grafico-caixa-larga">
             <canvas id="cnv_meses"></canvas>
           </div>
-          <p class="dash-pilula" id="p_frase_meses"></p>
+          <p class="dash-pilula">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5A3E3E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 5.6a5.2 5.2 0 0 0-7.4 0L12 7l-1.4-1.4a5.2 5.2 0 0 0-7.4 7.4L12 21.6l8.8-8.6a5.2 5.2 0 0 0 0-7.4z"/></svg>
+            <span id="p_frase_meses"></span>
+          </p>
         </div>
 
         <div class="cartao cartao-sentimentos">
           <h2>Memórias por sentimento</h2>
           <p class="cartao-sub">Cada cor, uma forma de sentir</p>
-          <div class="grafico-caixa">
-            <canvas id="cnv_sentimentos"></canvas>
+          <div class="rosca-area">
+            <div class="rosca-caixa">
+              <canvas id="cnv_sentimentos"></canvas>
+              <div class="rosca-centro">
+                <span id="rosca_total">0</span>
+                <span>memórias</span>
+              </div>
+            </div>
+            <div class="rosca-legenda" id="div_legenda"></div>
           </div>
+          <p class="cartao-rodape" id="p_rodape_sentimentos"></p>
         </div>
       </div>
 
@@ -127,6 +141,7 @@
           <h2>O que cada colo desperta</h2>
           <p class="cartao-sub">O sentimento que cada pessoa mais traz em você</p>
           <div id="div_colos"></div>
+          <p class="cartao-rodape">Cruzando suas memórias com as pessoas que foram o seu colo.</p>
         </div>
       </div>
 
@@ -388,12 +403,28 @@
       type: "bar",
       data: {
         labels: siglasMeses,
-        datasets: [{ data: totais, backgroundColor: "#F2B5A4", borderRadius: 8 }],
+        datasets: [
+          {
+            data: totais,
+            backgroundColor: "#F2B5A4",
+            borderRadius: { topLeft: 12, topRight: 12 },
+            borderSkipped: false,
+            maxBarThickness: 40,
+          },
+        ],
       },
       options: {
         maintainAspectRatio: false,
         plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
+        scales: {
+          x: { grid: { display: false }, border: { display: false }, ticks: { color: "#7A5C54" } },
+          y: {
+            beginAtZero: true,
+            border: { display: false },
+            grid: { color: "#EBD5C6" },
+            ticks: { stepSize: 1, color: "#7A5C54" },
+          },
+        },
       },
     });
   }
@@ -425,11 +456,11 @@
     let nomes = [];
     let totais = [];
     let cores = [];
+    let legenda = "";
 
     for (let i = 0; i < dados.length; i++) {
       let porcentagem = Math.round((dados[i].total / soma) * 100);
 
-      nomes.push(`${dados[i].sentimento} (${porcentagem}%)`);
       totais.push(dados[i].total);
 
       if (dados[i].sentimento == "Amor") {
@@ -449,13 +480,39 @@
 
         qtdExtras++;
       }
+
+      legenda += `
+        <div class="legenda-item">
+          <span class="legenda-bolinha" style="background: ${cores[i]}"></span>
+          ${dados[i].sentimento} · ${porcentagem}%
+        </div>
+      `;
     }
+
+    let palavraTotal = "memórias";
+    let palavraSent = "sentimentos";
+
+    if (soma == 1) {
+      palavraTotal = "memória";
+    }
+
+    if (dados.length == 1) {
+      palavraSent = "sentimento";
+    }
+
+    rosca_total.innerHTML = soma;
+    div_legenda.innerHTML = legenda;
+    p_rodape_sentimentos.innerHTML = `${soma} ${palavraTotal} · ${dados.length} ${palavraSent}`;
 
     new Chart(cnv_sentimentos, {
       type: "doughnut",
       data: {
-        labels: nomes,
-        datasets: [{ data: totais, backgroundColor: cores }],
+        datasets: [{ data: totais, backgroundColor: cores, borderWidth: 0 }],
+      },
+      options: {
+        maintainAspectRatio: false,
+        cutout: "62%",
+        plugins: { legend: { display: false } },
       },
     });
   }
