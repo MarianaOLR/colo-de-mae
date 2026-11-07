@@ -901,3 +901,456 @@ body::after {
     align-items: center;
     justify-content: center;
 }
+
+/* ===== NAVBAR FIXA COM BLUR ===== */
+html {
+    scroll-behavior: smooth;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255, 248, 240, 0.5);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+/* ===== SUBLINHADO NOS LINKS DO MENU ===== */
+nav a {
+    position: relative;
+}
+
+nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0;
+    height: 2px;
+    background: var(--pessego);
+    transition: width 0.25s;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* logo vira link sem ficar azul/sublinhado */
+a.logo {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ===== OLHINHO DA SENHA ===== */
+.campo-senha {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.campo-senha input {
+    margin-bottom: 0;
+    padding-right: 52px;
+}
+
+.olho {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+/* ===== RODAPÉ SEMPRE EMBAIXO (login e cadastro) ===== */
+.pagina-form {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.pagina-form .cadastro {
+    flex: 1;
+}
+
+.pagina-form main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== BLOCO 1: ACABAMENTOS ===== */
+
+/* rolagem para no título (desconta a altura do menu fixo) */
+html {
+    scroll-padding-top: 100px;
+}
+
+/* rodapé com blur, igual ao menu */
+footer {
+    position: relative;
+    z-index: 1;
+    background: rgba(251, 239, 227, 0.5);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+/* card do login/cadastro centralizado, sem esticar */
+.pagina-form .cadastro {
+    align-items: center;
+}
+
+/* ===== MODAL DA MEMÓRIA ===== */
+.modal-fundo {
+    background: rgba(90, 62, 62, 0.64);
+}
+
+.modal-caixa {
+    position: relative;
+    box-sizing: border-box;
+    width: 540px;
+    max-width: 92vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #FFFFFF;
+    border-radius: 32px;
+    padding: 34px 36px 32px;
+    box-shadow: 0 24px 60px rgba(90, 62, 62, 0.3);
+}
+
+.modal-fechar {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #7A5C54;
+    cursor: pointer;
+}
+
+.modal-topo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-right: 40px;
+}
+
+.modal-data {
+    font-size: 13px;
+}
+
+.modal-pilula {
+    padding: 4px 16px;
+    border-radius: 999px;
+    background: #EBD5C6;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.modal-pilula[data-sentimento="Amor"] {
+    background: #F2B5A4;
+}
+
+.modal-pilula[data-sentimento="Alegria"] {
+    background: #F6D98B;
+}
+
+.modal-pilula[data-sentimento="Gratidão"] {
+    background: #A9C4A0;
+}
+
+.modal-pilula[data-sentimento="Saudade"] {
+    background: #B7A5D6;
+}
+
+.modal-titulo {
+    margin: 14px 0 0;
+    font-family: Lora, serif;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 1.2;
+}
+
+.modal-descricao {
+    margin: 18px 0 0;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.modal-musica {
+    margin: 14px 0 0;
+    font-size: 14px;
+}
+
+.modal-frase {
+    margin: 14px 0 0;
+    font-size: 15px;
+    font-style: italic;
+}
+
+.modal-colos {
+    margin: 14px 0 0;
+    font-size: 14px;
+    font-style: italic;
+    color: #7A5C54;
+}
+
+.modal-foto {
+    display: block;
+    width: 100%;
+    max-height: 240px;
+    object-fit: cover;
+    border-radius: 18px;
+    margin-top: 20px;
+}
+
+/* ===== CHIP + ADICIONAR PESSOA ===== */
+.chip-adicionar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: transparent;
+    border: 1px dashed #E8A798;
+    font-family: inherit;
+    font-size: 13px;
+    color: #7A5C54;
+    cursor: pointer;
+}
+
+.chip-adicionar:hover {
+    background: #FBEFE3;
+}
+
+/* ===== PESSOAS ESCOLHIDAS (etiquetas) ===== */
+.colos-escolhidos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.chip-colo {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px 6px 14px;
+    border-radius: 999px;
+    background: #FBEFE3;
+    border: 1px solid #E8A798;
+    font-size: 13px;
+    color: #5A3E3E;
+}
+
+.chip-colo button {
+    width: 22px;
+    height: 22px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    font-size: 12px;
+    color: #7A5C54;
+    cursor: pointer;
+}
+
+.chip-colo button:hover {
+    background: #F2B5A4;
+}
+
+/* ===== JANELA DE ADICIONAR (sentimento ou pessoa) ===== */
+.modal-pequeno {
+    width: 420px;
+}
+
+.modal-pequeno input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    height: 48px;
+    padding: 0 20px;
+    margin: 18px 0 10px;
+    border: 1px solid #EBD5C6;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 14px;
+    color: #5A3E3E;
+    background: #FFFFFF;
+}
+
+.modal-pequeno .botao {
+    margin-top: 14px;
+}
+
+.modal-pequeno .modal-titulo {
+    font-size: 26px;
+    padding-right: 40px;
+}
+
+/* ===== "CRIADOS POR VOCÊ" (com lixeirinha) ===== */
+.meus-itens {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin: -8px 0 18px;
+}
+
+.meus-itens:empty {
+    display: none;
+}
+
+.meus-itens-titulo {
+    font-size: 12px;
+    color: #7A5C54;
+}
+
+.meus-itens .chip-colo {
+    background: transparent;
+    border-style: dashed;
+}
+
+.botao-lixeira {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===== CARD DA MEMÓRIA: sem faixa lateral, pílulas à direita ===== */
+.memoria-card {
+    border-left: 1px solid #EBD5C6;
+}
+
+.memoria-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.memoria-pilulas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 6px;
+}
+
+.memoria-sentimento {
+    background: #EBD5C6;
+}
+
+.memoria-sentimento[data-sentimento="Amor"] {
+    background: #F2B5A4;
+}
+
+.memoria-sentimento[data-sentimento="Alegria"] {
+    background: #F6D98B;
+}
+
+.memoria-sentimento[data-sentimento="Gratidão"] {
+    background: #A9C4A0;
+}
+
+.memoria-sentimento[data-sentimento="Saudade"] {
+    background: #B7A5D6;
+}
+
+/* várias pílulas no topo da janela da memória */
+.modal-topo {
+    flex-wrap: wrap;
+    gap: 8px 10px;
+}
+
+/* ===== LISTA SUSPENSA (sentimento e colo) ===== */
+.dropdown {
+    position: relative;
+    margin-bottom: 18px;
+}
+
+.dropdown-botao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    height: 48px;
+    padding: 0 20px;
+    border: 1px solid #EBD5C6;
+    border-radius: 999px;
+    background: #FFFFFF;
+    font-family: inherit;
+    font-size: 14px;
+    color: #5A3E3E;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdown-lista {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 54px;
+    z-index: 5;
+    max-height: 240px;
+    overflow-y: auto;
+    padding: 8px;
+    background: #FFFFFF;
+    border: 1px solid #EBD5C6;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(90, 62, 62, 0.15);
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 12px;
+    font-size: 14px;
+}
+
+.dropdown-item:hover {
+    background: #FBEFE3;
+}
+
+.dropdown-nome {
+    flex: 1;
+    padding: 10px 12px;
+    cursor: pointer;
+}
+
+.dropdown-novo {
+    margin-top: 4px;
+    padding: 10px 12px;
+    border-top: 1px dashed #EBD5C6;
+    font-size: 14px;
+    color: #7A5C54;
+    cursor: pointer;
+}
+
+.dropdown-novo:hover {
+    background: #FBEFE3;
+}
+
+.botao-lixeira {
+    width: 30px;
+    height: 30px;
+    margin-right: 6px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+}
+
+.botao-lixeira:hover {
+    background: #F2B5A4;
+}
+
+.colos-escolhidos:empty {
+    display: none;
+}

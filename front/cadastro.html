@@ -11,10 +11,10 @@
     />
     <link rel="stylesheet" href="css/style.css" />
   </head>
-  <body>
+  <body class="pagina-form">
     <!-- MENU -->
     <header>
-      <div class="logo">
+      <a href="index.html" class="logo">
         <svg
           width="27"
           height="38"
@@ -38,7 +38,7 @@
           />
         </svg>
         Colo de Mãe
-      </div>
+      </a>
       <nav>
         <a href="index.html">← Voltar para Home</a>
       </nav>
@@ -66,14 +66,48 @@
           />
 
           <label for="ipt_senha">Senha</label>
-          <input type="password" id="ipt_senha" placeholder="Crie uma senha" />
+          <div class="campo-senha">
+            <input type="password" id="ipt_senha" placeholder="Crie uma senha" />
+            <svg
+              class="olho"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#7A5C54"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              onclick="mostrarSenha()"
+            >
+              <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          </div>
 
           <label for="ipt_confirmar">Confirmar senha</label>
-          <input
-            type="password"
-            id="ipt_confirmar"
-            placeholder="Repita sua senha"
-          />
+          <div class="campo-senha">
+            <input
+              type="password"
+              id="ipt_confirmar"
+              placeholder="Repita sua senha"
+            />
+            <svg
+              class="olho"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#7A5C54"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              onclick="mostrarConfirmar()"
+            >
+              <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          </div>
 
           <div id="div_mensagem"></div>
 
@@ -95,6 +129,22 @@
     </footer>
 
     <script>
+      function mostrarSenha() {
+        if (ipt_senha.type == "password") {
+          ipt_senha.type = "text";
+        } else {
+          ipt_senha.type = "password";
+        }
+      }
+
+      function mostrarConfirmar() {
+        if (ipt_confirmar.type == "password") {
+          ipt_confirmar.type = "text";
+        } else {
+          ipt_confirmar.type = "password";
+        }
+      }
+
       function cadastrar() {
         let nome = ipt_nome.value;
         let email = ipt_email.value;

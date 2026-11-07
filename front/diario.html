@@ -14,8 +14,7 @@
   <body onload="carregarPagina()">
     <!-- MENU -->
     <header>
-      <a href="index.html">
-        <div class="logo">
+      <a href="index.html" class="logo">
           <svg
             width="27"
             height="38"
@@ -39,7 +38,6 @@
             />
           </svg>
           Colo de Mãe
-        </div>
       </a>
       <nav>
         <a href="index.html">Home</a>
@@ -95,11 +93,23 @@
             placeholder="Uma frase para levar com você"
           />
 
-          <label for="slt_sentimento">Sentimento</label>
-          <select id="slt_sentimento"></select>
+          <label for="btn_sentimento">Sentimentos</label>
+          <div class="dropdown" onmouseleave="fecharListas()">
+            <button type="button" id="btn_sentimento" class="dropdown-botao" onclick="abrirLista('sentimento')">
+              Selecione uma opção <span>▾</span>
+            </button>
+            <div id="lista_sentimento" class="dropdown-lista"></div>
+          </div>
+          <div id="div_sentimentos_escolhidos" class="colos-escolhidos"></div>
 
-          <label>Você se sentiu no colo de quem?</label>
-          <div id="div_colos" class="opcoes-colo"></div>
+          <label for="btn_colo">Você se sentiu no colo de quem?</label>
+          <div class="dropdown" onmouseleave="fecharListas()">
+            <button type="button" id="btn_colo" class="dropdown-botao" onclick="abrirLista('colo')">
+              Selecione uma opção <span>▾</span>
+            </button>
+            <div id="lista_colo" class="dropdown-lista"></div>
+          </div>
+          <div id="div_colos_escolhidos" class="colos-escolhidos"></div>
 
           <label for="ipt_foto">Link da foto</label>
           <input type="text" id="ipt_foto" placeholder="https://..." />
@@ -111,7 +121,7 @@
           </button>
         </div>
 
-        <!-- LISTA DE MEMÓRIAS (próxima etapa) -->
+        <!-- LISTA DE MEMÓRIAS -->
         <div class="lista-memorias">
           <h2>Minhas memórias</h2>
           <div id="div_memorias"></div>
@@ -121,21 +131,64 @@
 
     <footer>
       <span>Projeto Individual · SPTech · 1ADSA</span>
-      <i>Feito de afeto, para guardar afeto.</i>
+      <em>Feito de afeto, para guardar afeto.</em>
     </footer>
 
+    <!-- JANELA DA MEMÓRIA -->
     <div id="modal_memoria" class="modal-fundo">
       <div class="modal-caixa">
         <button class="modal-fechar" onclick="fecharModal()">✕</button>
         <div id="div_modal"></div>
       </div>
     </div>
+
+    <!-- JANELA PARA ADICIONAR SENTIMENTO OU PESSOA -->
+    <div id="modal_adicionar" class="modal-fundo">
+      <div class="modal-caixa modal-pequeno">
+        <button class="modal-fechar" onclick="fecharAdicionar()">✕</button>
+        <h3 class="modal-titulo" id="h3_adicionar"></h3>
+        <p class="modal-descricao" id="p_adicionar"></p>
+        <input type="text" id="ipt_adicionar" />
+        <div id="div_adicionar"></div>
+        <button type="button" class="botao botao-largo" onclick="confirmarAdicionar()">
+          Adicionar
+        </button>
+      </div>
+    </div>
+
+    <!-- JANELA PARA CONFIRMAR EXCLUSÃO -->
+    <div id="modal_excluir" class="modal-fundo">
+      <div class="modal-caixa modal-pequeno">
+        <button class="modal-fechar" onclick="fecharExcluir()">✕</button>
+        <h3 class="modal-titulo">Excluir?</h3>
+        <p class="modal-descricao" id="p_excluir"></p>
+        <div id="div_excluir"></div>
+        <button type="button" class="botao botao-largo" onclick="confirmarExclusao()">
+          Excluir
+        </button>
+      </div>
+    </div>
   </body>
 </html>
 
 <script>
-  let sentimentos = ["Amor", "Alegria", "Gratidão", "Saudade"];
+  let listaSentimentos = [];
+  let sentimentosEscolhidos = [];
+  let listaColos = [];
+  let colosEscolhidos = [];
+  let tipoAdicionar = "";
+  let tipoExcluir = "";
+  let idExcluir = 0;
   let listaMemorias = [];
+  let siglasMeses = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+  let iconeLixeira = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7A5C54" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></svg>`;
+
+  function sair() {
+    sessionStorage.removeItem("ID_USUARIO");
+    sessionStorage.removeItem("NOME_USUARIO");
+    sessionStorage.removeItem("EMAIL_USUARIO");
+    window.location = "index.html";
+  }
 
   function carregarPagina() {
     let nome = sessionStorage.NOME_USUARIO;
@@ -146,38 +199,418 @@
       window.location = "login.html";
     }
 
-    let opcoes = "";
-
-    for (let i = 0; i < sentimentos.length; i++) {
-      opcoes += `<option value="${sentimentos[i]}">${sentimentos[i]}</option>`;
-    }
-
-    slt_sentimento.innerHTML = opcoes;
-
-    carregarMemorias();
+    carregarSentimentos();
     carregarColos();
+    carregarMemorias();
   }
 
-    function carregarColos() {
-    fetch("/colos/listar").then(function (resposta) {
+  // ---------- LISTAS SUSPENSAS ----------
+
+  // abre ou fecha a lista de um dos dois campos
+  function abrirLista(tipo) {
+    let lista = lista_colo;
+
+    if (tipo == "sentimento") {
+      lista = lista_sentimento;
+    }
+
+    if (lista.style.display == "block") {
+      lista.style.display = "none";
+    } else {
+      fecharListas();
+      lista.style.display = "block";
+    }
+  }
+
+  function fecharListas() {
+    lista_sentimento.style.display = "none";
+    lista_colo.style.display = "none";
+  }
+
+  // ---------- SENTIMENTOS ----------
+
+  function carregarSentimentos() {
+    let fkUsuario = sessionStorage.ID_USUARIO;
+
+    fetch(`/sentimentos/listar/${fkUsuario}`).then(function (resposta) {
       if (resposta.ok) {
-        resposta.json().then(function (colos) {
-          let caixinhas = "";
-
-          for (let i = 0; i < colos.length; i++) {
-            caixinhas += `
-              <label class="opcao-colo">
-                <input type="checkbox" name="colo" value="${colos[i].id_colo}">
-                ${colos[i].nome}
-              </label>
-            `;
-          }
-
-          div_colos.innerHTML = caixinhas;
+        resposta.json().then(function (sentimentos) {
+          listaSentimentos = sentimentos;
+          montarListaSentimento();
+          montarChipsSentimento();
         });
       }
     });
   }
+
+  // cada sentimento ainda não escolhido vira uma linha; os criados por você ganham a lixeirinha
+  function montarListaSentimento() {
+    let linhas = "";
+
+    for (let i = 0; i < listaSentimentos.length; i++) {
+      let jaEscolhido = 0;
+
+      for (let j = 0; j < sentimentosEscolhidos.length; j++) {
+        if (sentimentosEscolhidos[j] == listaSentimentos[i].id_sentimento) {
+          jaEscolhido++;
+        }
+      }
+
+      if (jaEscolhido == 0) {
+        let lixeira = "";
+
+        if (listaSentimentos[i].fk_usuario != null) {
+          lixeira = `<button type="button" class="botao-lixeira" onclick="pedirExclusao('sentimento', ${listaSentimentos[i].id_sentimento})">${iconeLixeira}</button>`;
+        }
+
+        linhas += `
+          <div class="dropdown-item">
+            <span class="dropdown-nome" onclick="escolherSentimento(${listaSentimentos[i].id_sentimento})">${listaSentimentos[i].nome}</span>
+            ${lixeira}
+          </div>
+        `;
+      }
+    }
+
+    linhas += `<div class="dropdown-novo" onclick="abrirAdicionar('sentimento')">＋ Adicionar outro sentimento…</div>`;
+
+    lista_sentimento.innerHTML = linhas;
+  }
+
+  // etiquetas dos sentimentos escolhidos, cada uma com um ✕
+  function montarChipsSentimento() {
+    let chips = "";
+
+    for (let i = 0; i < sentimentosEscolhidos.length; i++) {
+      let nome = "";
+
+      for (let j = 0; j < listaSentimentos.length; j++) {
+        if (listaSentimentos[j].id_sentimento == sentimentosEscolhidos[i]) {
+          nome = listaSentimentos[j].nome;
+        }
+      }
+
+      chips += `<span class="chip-colo">${nome}<button type="button" onclick="removerSentimento(${i})">✕</button></span>`;
+    }
+
+    div_sentimentos_escolhidos.innerHTML = chips;
+  }
+
+  function escolherSentimento(id) {
+    sentimentosEscolhidos.push(id);
+    fecharListas();
+    montarChipsSentimento();
+    montarListaSentimento();
+  }
+
+  // tira um sentimento da lista de escolhidos (cria uma lista nova sem ele)
+  function removerSentimento(posicao) {
+    let novos = [];
+
+    for (let i = 0; i < sentimentosEscolhidos.length; i++) {
+      if (i != posicao) {
+        novos.push(sentimentosEscolhidos[i]);
+      }
+    }
+
+    sentimentosEscolhidos = novos;
+    montarChipsSentimento();
+    montarListaSentimento();
+  }
+
+  // ---------- COLOS ----------
+
+  function carregarColos() {
+    let fkUsuario = sessionStorage.ID_USUARIO;
+
+    fetch(`/colos/listar/${fkUsuario}`).then(function (resposta) {
+      if (resposta.ok) {
+        resposta.json().then(function (colos) {
+          listaColos = colos;
+          montarListaColo();
+          montarChipsColo();
+        });
+      }
+    });
+  }
+
+  function montarListaColo() {
+    let linhas = "";
+
+    for (let i = 0; i < listaColos.length; i++) {
+      let jaEscolhido = 0;
+
+      for (let j = 0; j < colosEscolhidos.length; j++) {
+        if (colosEscolhidos[j] == listaColos[i].id_colo) {
+          jaEscolhido++;
+        }
+      }
+
+      if (jaEscolhido == 0) {
+        let lixeira = "";
+
+        if (listaColos[i].fk_usuario != null) {
+          lixeira = `<button type="button" class="botao-lixeira" onclick="pedirExclusao('colo', ${listaColos[i].id_colo})">${iconeLixeira}</button>`;
+        }
+
+        linhas += `
+          <div class="dropdown-item">
+            <span class="dropdown-nome" onclick="escolherColo(${listaColos[i].id_colo})">${listaColos[i].nome}</span>
+            ${lixeira}
+          </div>
+        `;
+      }
+    }
+
+    linhas += `<div class="dropdown-novo" onclick="abrirAdicionar('colo')">＋ Adicionar outra pessoa…</div>`;
+
+    lista_colo.innerHTML = linhas;
+  }
+
+  function montarChipsColo() {
+    let chips = "";
+
+    for (let i = 0; i < colosEscolhidos.length; i++) {
+      let nome = "";
+
+      for (let j = 0; j < listaColos.length; j++) {
+        if (listaColos[j].id_colo == colosEscolhidos[i]) {
+          nome = listaColos[j].nome;
+        }
+      }
+
+      chips += `<span class="chip-colo">${nome}<button type="button" onclick="removerColo(${i})">✕</button></span>`;
+    }
+
+    div_colos_escolhidos.innerHTML = chips;
+  }
+
+  function escolherColo(id) {
+    colosEscolhidos.push(id);
+    fecharListas();
+    montarChipsColo();
+    montarListaColo();
+  }
+
+  function removerColo(posicao) {
+    let novos = [];
+
+    for (let i = 0; i < colosEscolhidos.length; i++) {
+      if (i != posicao) {
+        novos.push(colosEscolhidos[i]);
+      }
+    }
+
+    colosEscolhidos = novos;
+    montarChipsColo();
+    montarListaColo();
+  }
+
+  // ---------- JANELA DE ADICIONAR (sentimento ou pessoa) ----------
+
+  function abrirAdicionar(tipo) {
+    tipoAdicionar = tipo;
+    ipt_adicionar.value = "";
+    div_adicionar.innerHTML = "";
+    fecharListas();
+
+    if (tipo == "sentimento") {
+      h3_adicionar.innerHTML = "Novo sentimento";
+      p_adicionar.innerHTML = "Que sentimento essa memória despertou?";
+      ipt_adicionar.placeholder = "Ex.: Orgulho";
+    } else {
+      h3_adicionar.innerHTML = "Nova pessoa";
+      p_adicionar.innerHTML = "Quem foi o seu colo?";
+      ipt_adicionar.placeholder = "Ex.: Tia Ana";
+    }
+
+    modal_adicionar.style.display = "flex";
+  }
+
+  function fecharAdicionar() {
+    modal_adicionar.style.display = "none";
+    montarListaSentimento();
+    montarListaColo();
+  }
+
+  function confirmarAdicionar() {
+    let nome = ipt_adicionar.value;
+    let limite = 45;
+    let rota = "colos";
+    let lista = listaColos;
+
+    if (tipoAdicionar == "sentimento") {
+      limite = 20;
+      rota = "sentimentos";
+      lista = listaSentimentos;
+    }
+
+    if (nome == "") {
+      div_adicionar.innerHTML = `<span style="color: red;">• Digite um nome.</span>`;
+    } else if (nome.length > limite) {
+      div_adicionar.innerHTML = `<span style="color: red;">• Use no máximo ${limite} caracteres.</span>`;
+    } else if (nome.includes("'")) {
+      div_adicionar.innerHTML = `<span style="color: red;">• Não use aspas simples.</span>`;
+    } else {
+      // se já existe com esse nome, só escolhe; senão, cadastra no banco
+      let idExistente = 0;
+
+      for (let i = 0; i < lista.length; i++) {
+        if (nome.toLowerCase() == lista[i].nome.toLowerCase()) {
+          if (tipoAdicionar == "sentimento") {
+            idExistente = lista[i].id_sentimento;
+          } else {
+            idExistente = lista[i].id_colo;
+          }
+        }
+      }
+
+      if (idExistente != 0) {
+        let jaEscolhido = 0;
+
+        if (tipoAdicionar == "sentimento") {
+          for (let i = 0; i < sentimentosEscolhidos.length; i++) {
+            if (sentimentosEscolhidos[i] == idExistente) {
+              jaEscolhido++;
+            }
+          }
+
+          if (jaEscolhido == 0) {
+            sentimentosEscolhidos.push(idExistente);
+          }
+
+          montarChipsSentimento();
+        } else {
+          for (let i = 0; i < colosEscolhidos.length; i++) {
+            if (colosEscolhidos[i] == idExistente) {
+              jaEscolhido++;
+            }
+          }
+
+          if (jaEscolhido == 0) {
+            colosEscolhidos.push(idExistente);
+          }
+
+          montarChipsColo();
+        }
+
+        fecharAdicionar();
+      } else {
+        fetch(`/${rota}/cadastrar`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nomeServer: nome,
+            fkUsuarioServer: sessionStorage.ID_USUARIO,
+          }),
+        })
+          .then(function (resposta) {
+            if (resposta.ok) {
+              resposta.json().then(function (resultado) {
+                if (tipoAdicionar == "sentimento") {
+                  sentimentosEscolhidos.push(resultado.insertId);
+                  carregarSentimentos();
+                } else {
+                  colosEscolhidos.push(resultado.insertId);
+                  carregarColos();
+                }
+
+                modal_adicionar.style.display = "none";
+              });
+            } else {
+              div_adicionar.innerHTML = `<span style="color: red;">Não foi possível adicionar. Tente novamente.</span>`;
+            }
+          })
+          .catch(function (erro) {
+            console.log(erro);
+            div_adicionar.innerHTML = `<span style="color: red;">Erro de conexão com o servidor.</span>`;
+          });
+      }
+    }
+  }
+
+  // ---------- JANELA DE EXCLUIR (sentimento ou pessoa) ----------
+
+  function pedirExclusao(tipo, id) {
+    tipoExcluir = tipo;
+    idExcluir = id;
+    div_excluir.innerHTML = "";
+    fecharListas();
+
+    let nome = "";
+
+    if (tipo == "sentimento") {
+      for (let i = 0; i < listaSentimentos.length; i++) {
+        if (listaSentimentos[i].id_sentimento == id) {
+          nome = listaSentimentos[i].nome;
+        }
+      }
+    } else {
+      for (let i = 0; i < listaColos.length; i++) {
+        if (listaColos[i].id_colo == id) {
+          nome = listaColos[i].nome;
+        }
+      }
+    }
+
+    p_excluir.innerHTML = `Você quer mesmo excluir "${nome}"?`;
+    modal_excluir.style.display = "flex";
+  }
+
+  function fecharExcluir() {
+    modal_excluir.style.display = "none";
+  }
+
+  function confirmarExclusao() {
+    let rota = "colos";
+
+    if (tipoExcluir == "sentimento") {
+      rota = "sentimentos";
+    }
+
+    fetch(`/${rota}/excluir/${idExcluir}/${sessionStorage.ID_USUARIO}`, {
+      method: "DELETE",
+    })
+      .then(function (resposta) {
+        if (resposta.ok) {
+          let novos = [];
+
+          if (tipoExcluir == "sentimento") {
+            for (let i = 0; i < sentimentosEscolhidos.length; i++) {
+              if (sentimentosEscolhidos[i] != idExcluir) {
+                novos.push(sentimentosEscolhidos[i]);
+              }
+            }
+
+            sentimentosEscolhidos = novos;
+            carregarSentimentos();
+          } else {
+            for (let i = 0; i < colosEscolhidos.length; i++) {
+              if (colosEscolhidos[i] != idExcluir) {
+                novos.push(colosEscolhidos[i]);
+              }
+            }
+
+            colosEscolhidos = novos;
+            carregarColos();
+          }
+
+          modal_excluir.style.display = "none";
+        } else {
+          resposta.text().then(function (texto) {
+            div_excluir.innerHTML = `<span style="color: red;">${texto}</span>`;
+          });
+        }
+      })
+      .catch(function (erro) {
+        console.log(erro);
+        div_excluir.innerHTML = `<span style="color: red;">Erro de conexão com o servidor.</span>`;
+      });
+  }
+
+  // ---------- SALVAR MEMÓRIA ----------
 
   function salvar() {
     let titulo = ipt_titulo.value;
@@ -185,20 +618,10 @@
     let descricao = ipt_descricao.value;
     let musica = ipt_musica.value;
     let frase = ipt_frase.value;
-    let sentimento = slt_sentimento.value;
     let foto = ipt_foto.value;
 
-    let caixinhas = document.getElementsByName("colo");
-    let colosMarcados = [];
-
-    for (let i = 0; i < caixinhas.length; i++) {
-      if (caixinhas[i].checked) {
-        colosMarcados.push(caixinhas[i].value);
-      }
-    }
-
-    let campos = [titulo, data, descricao, sentimento];
-    let rotulos = ["Título", "Data", "Descrição", "Sentimento"];
+    let campos = [titulo, data, descricao];
+    let rotulos = ["Título", "Data", "Descrição"];
 
     let mensagem = "";
     let qtdErros = 0;
@@ -209,22 +632,14 @@
         qtdErros++;
       }
     }
-    
-    let sentimentoValido = 0;
 
-    for (let i = 0; i < sentimentos.length; i++) {
-      if (sentimento == sentimentos[i]) {
-        sentimentoValido++;
-      }
-    }
-
-    if (colosMarcados.length == 0) {
-      mensagem += "• Escolha pelo menos um colo.<br>";
+    if (sentimentosEscolhidos.length == 0) {
+      mensagem += "• Escolha pelo menos um sentimento.<br>";
       qtdErros++;
     }
 
-    if (sentimentoValido == 0) {
-      mensagem += "• Escolha um sentimento da lista.<br>";
+    if (colosEscolhidos.length == 0) {
+      mensagem += "• Escolha pelo menos um colo.<br>";
       qtdErros++;
     }
 
@@ -262,10 +677,10 @@
           descricaoServer: descricao,
           musicaServer: musica,
           fraseServer: frase,
-          sentimentoServer: sentimento,
           fotoServer: foto,
           fkUsuarioServer: sessionStorage.ID_USUARIO,
-          colosServer: colosMarcados,
+          colosServer: colosEscolhidos,
+          sentimentosServer: sentimentosEscolhidos,
         }),
       })
         .then(function (resposta) {
@@ -279,8 +694,14 @@
             ipt_frase.value = "";
             ipt_foto.value = "";
 
+            sentimentosEscolhidos = [];
+            colosEscolhidos = [];
+
+            montarListaSentimento();
+            montarChipsSentimento();
+            montarListaColo();
+            montarChipsColo();
             carregarMemorias();
-            carregarColos();
           } else {
             div_exibir.innerHTML = `<span style="color: red;">Não foi possível salvar. Tente novamente.</span>`;
           }
@@ -294,74 +715,99 @@
     }
   }
 
+  // ---------- LISTA DE MEMÓRIAS ----------
+
   function carregarMemorias() {
     let fkUsuario = sessionStorage.ID_USUARIO;
 
     fetch(`/memorias/listar/${fkUsuario}`).then(function (resposta) {
-        if (resposta.ok) {
-            resposta.json().then(function (memorias) {
-                listaMemorias = memorias;
+      if (resposta.ok) {
+        resposta.json().then(function (memorias) {
+          listaMemorias = memorias;
 
-                let cartoes = "";
+          let cartoes = "";
 
-                if (memorias.length == 0) {
-                    cartoes = "<p>Você ainda não guardou nenhuma memória.</p>";
-                }
+          if (memorias.length == 0) {
+            cartoes = "<p>Você ainda não guardou nenhuma memória.</p>";
+          }
 
-                for (let i = 0; i < memorias.length; i++) {
-                    let partes = memorias[i].data.split("T")[0].split("-");
-                    let dataBr = `${partes[2]}/${partes[1]}/${partes[0]}`;
-                    let linhaColos = "";
+          for (let i = 0; i < memorias.length; i++) {
+            let partes = memorias[i].data.split("T")[0].split("-");
+            let dataBr = `${partes[2]}/${partes[1]}/${partes[0]}`;
+            let linhaColos = "";
+            let pilulas = "";
 
-                    if (memorias[i].colos != null) {
-                        linhaColos = `<p class="memoria-colos">Seu colo: ${memorias[i].colos}</p>`;
-                    }
+            if (memorias[i].colos != null) {
+              linhaColos = `<p class="memoria-colos">Seu colo: ${memorias[i].colos}</p>`;
+            }
 
-                    cartoes += `
-                        <div class="memoria-card" data-sentimento="${memorias[i].sentimento}" onclick="abrirModal(${i})">
-                            <span class="memoria-data">${dataBr}</span>
-                            <h3>${memorias[i].titulo}</h3>
-                            <span class="memoria-sentimento">${memorias[i].sentimento}</span>
-                            <p>${memorias[i].frase}</p>
-                            ${linhaColos}
-                        </div>
-                    `;
-                }
+            if (memorias[i].sentimentos != null) {
+              let nomes = memorias[i].sentimentos.split("|");
 
-                div_memorias.innerHTML = cartoes;
-            });
-        }
+              for (let j = 0; j < nomes.length; j++) {
+                pilulas += `<span class="memoria-sentimento" data-sentimento="${nomes[j]}">${nomes[j]}</span>`;
+              }
+            }
+
+            cartoes += `
+              <div class="memoria-card" onclick="abrirModal(${i})">
+                <div class="memoria-topo">
+                  <span class="memoria-data">${dataBr}</span>
+                  <div class="memoria-pilulas">${pilulas}</div>
+                </div>
+                <h3>${memorias[i].titulo}</h3>
+                <p>${memorias[i].frase}</p>
+                ${linhaColos}
+              </div>
+            `;
+          }
+
+          div_memorias.innerHTML = cartoes;
+        });
+      }
     });
-}
-function abrirModal(i) {
+  }
+
+  function abrirModal(i) {
     let memoria = listaMemorias[i];
 
     let partes = memoria.data.split("T")[0].split("-");
-    let dataBr = `${partes[2]}/${partes[1]}/${partes[0]}`;
+    let dataExtenso = `${Number(partes[2])} ${siglasMeses[Number(partes[1]) - 1]} ${partes[0]}`;
 
     let linhaMusica = "";
     let linhaFoto = "";
     let linhaColos = "";
+    let pilulas = "";
 
     if (memoria.musica != null && memoria.musica != "") {
-      linhaMusica = `<p><b>Música:</b> ${memoria.musica}</p>`;
+      linhaMusica = `<p class="modal-musica"><b>Música:</b> ${memoria.musica}</p>`;
     }
 
     if (memoria.foto != null && memoria.foto != "") {
-      linhaFoto = `<img class="modal-foto" src="${memoria.foto}">`;
+      linhaFoto = `<img class="modal-foto" src="${memoria.foto}" onerror="this.style.display = 'none'">`;
     }
 
     if (memoria.colos != null) {
-      linhaColos = `<p class="memoria-colos">Seu colo: ${memoria.colos}</p>`;
+      linhaColos = `<p class="modal-colos">Seu colo: ${memoria.colos}</p>`;
+    }
+
+    if (memoria.sentimentos != null) {
+      let nomes = memoria.sentimentos.split("|");
+
+      for (let j = 0; j < nomes.length; j++) {
+        pilulas += `<span class="modal-pilula" data-sentimento="${nomes[j]}">${nomes[j]}</span>`;
+      }
     }
 
     div_modal.innerHTML = `
-      <span class="memoria-data">${dataBr}</span>
-      <h3>${memoria.titulo}</h3>
-      <span class="memoria-sentimento">${memoria.sentimento}</span>
-      <p>${memoria.descricao}</p>
+      <div class="modal-topo">
+        <span class="modal-data">${dataExtenso}</span>
+        ${pilulas}
+      </div>
+      <h3 class="modal-titulo">${memoria.titulo}</h3>
+      <p class="modal-descricao">${memoria.descricao}</p>
       ${linhaMusica}
-      <p><i>"${memoria.frase}"</i></p>
+      <p class="modal-frase">“${memoria.frase}”</p>
       ${linhaColos}
       ${linhaFoto}
     `;

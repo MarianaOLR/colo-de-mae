@@ -14,8 +14,7 @@
   </head>
 <body onload="carregarPagina()">
     <header>
-      <a href="index.html">
-        <div class="logo">
+      <a href="index.html" class="logo">
           <svg
             width="27"
             height="38"
@@ -39,7 +38,6 @@
             />
           </svg>
           Colo de Mãe
-        </div>
       </a>
       <nav>
         <a href="index.html">Home</a>
@@ -130,6 +128,13 @@
 <script>
   let siglasMeses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
   let nomesMeses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+
+  function sair() {
+    sessionStorage.removeItem("ID_USUARIO");
+    sessionStorage.removeItem("NOME_USUARIO");
+    sessionStorage.removeItem("EMAIL_USUARIO");
+    window.location = "index.html";
+  }
 
   function carregarPagina() {
     let nome = sessionStorage.NOME_USUARIO;
