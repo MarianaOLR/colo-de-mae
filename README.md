@@ -18,9 +18,9 @@
 
 Nem todo cuidado faz barulho. Às vezes ele vem em um café pronto, uma mensagem ou um abraço demorado.
 
-O **Colo de Mãe** é um site-diário para guardar essas memórias e os sentimentos que elas despertam, especialmente os que têm cheirinho de mãe. Cada memória tem um **título**, uma **data**, a **descrição** do momento, uma **música**, uma **frase** que marcou, uma **foto** e um **sentimento** (Amor, Alegria, Gratidão ou Saudade).
+O **Colo de Mãe** é um site-diário para guardar essas memórias e os sentimentos que elas despertam, especialmente os que têm cheirinho de mãe. Cada memória tem um **título**, uma **data**, a **descrição** do momento, uma **música**, uma **frase** que marcou, uma **foto**, um **sentimento** e as **pessoas que foram o colo** naquele momento. Cada pessoa começa com quatro sentimentos (Amor, Alegria, Gratidão e Saudade) e quatro colos (Mãe, Amiga, Namorado e Eu mesma), e pode criar e apagar os seus.
 
-Com os registros, o site mostra um **dashboard** com os sentimentos mais citados e as memórias ao longo do tempo, para a pessoa enxergar o que mais floresce na sua história.
+Com os registros, o site mostra um **dashboard** com o sentimento mais citado, o colo mais presente, as memórias ao longo do tempo e uma memória sorteada para reler, para a pessoa enxergar o que mais floresce na sua história.
 
 > Porque lembrar também é uma forma de acolher.
 
@@ -32,7 +32,7 @@ Com os registros, o site mostra um **dashboard** com os sentimentos mais citados
 
 <img src="docs/telas-finais/tela-home.png" alt="Home do Colo de Mãe" width="640" />
 
-<sub>As outras telas (cadastro, login, diário e dashboard) estão em <a href="docs/telas-finais">docs/telas-finais</a>.</sub>
+<sub>Protótipo das telas. As outras (cadastro, login, diário, janela da memória e dashboard) estão em <a href="docs/telas-finais">docs/telas-finais</a>.</sub>
 
 </div>
 
@@ -40,10 +40,12 @@ Com os registros, o site mostra um **dashboard** com os sentimentos mais citados
 
 ## ✨ O que o site faz
 
-- 🌱 **Cadastro e login** — cada pessoa tem o seu cantinho.
-- 📖 **Diário** — registrar e reler memórias, cada uma com música, frase, foto e sentimento.
-- 📊 **Dashboard** — total de usuários, sentimento mais citado e memórias por mês.
-- 🎨 **Sentimentos em cores** — Amor, Alegria, Gratidão e Saudade, cada um com a sua cor.
+- 🌱 **Cadastro e login** — cada pessoa tem o seu cantinho, com validação dos campos.
+- 📖 **Diário** — registrar, reler e apagar memórias, cada uma com música, frase, foto, sentimento e quem foi o colo.
+- 🌷 **Sentimentos e pessoas só seus** — cada usuário começa com os iniciais e pode criar e apagar os próprios.
+- 🖼️ **Foto da memória** — por link, e abre em tamanho grande ao clicar.
+- 📊 **Dashboard** — sentimento mais citado, colo mais presente, total de memórias, memórias por mês, memória sorteada e o que cada colo desperta.
+- 🎨 **Sentimentos em cores** — cada sentimento tem a sua cor nos cards e nos gráficos.
 
 > [!NOTE]
 > O projeto está **em desenvolvimento**. O que já está pronto e o que falta está na seção [Andamento](#-andamento).
@@ -62,9 +64,11 @@ Com os registros, o site mostra um **dashboard** com os sentimentos mais citados
 
 | Camada | O que faz |
 |---|---|
-| **Frontend** | Páginas, estilo e validação dos formulários |
-| **Backend** | Recebe os dados do site, grava e consulta no banco |
-| **Banco de dados** | Guarda usuários e memórias (um usuário tem várias memórias) |
+| **Frontend** | Páginas, estilo, validação dos formulários e gráficos (Chart.js) |
+| **Backend** | API em Node.js com Express: recebe os dados do site, grava e consulta no banco |
+| **Banco de dados** | MySQL com 5 tabelas: `usuario`, `sentimento`, `colo`, `memoria` e `memoria_colo` |
+
+**Relacionamentos:** um usuário tem várias memórias, vários sentimentos e vários colos (1:n); um sentimento está em várias memórias (1:n); uma memória tem vários colos e um colo está em várias memórias (n:n, pela tabela `memoria_colo`).
 
 <br>
 
@@ -98,12 +102,24 @@ Com os registros, o site mostra um **dashboard** com os sentimentos mais citados
 - [x] Modelo lógico e script do banco
 - [x] Consultas dos indicadores
 - [x] Esboço das telas e identidade visual
-- [ ] Página Home
-- [ ] Telas de cadastro e login com validação em JavaScript
-- [ ] API em Node.js conectada ao banco
+- [x] Página Home
+- [x] Telas de cadastro e login com validação em JavaScript
+- [x] API em Node.js conectada ao banco
+- [x] Diário e dashboard funcionando
 - [ ] Banco na VM Linux
-- [ ] Diário e dashboard funcionando
+- [ ] Documentação final
 - [ ] Apresentação final
+
+<br>
+
+## ▶️ Como rodar
+
+1. Crie o banco rodando o [script.sql](banco/script.sql) no MySQL Workbench.
+2. Na pasta `api/`, copie o `.env.example` para `.env.dev` e preencha o usuário e a senha do seu MySQL.
+3. Ainda em `api/`, rode `npm install` e depois `node app.js`.
+4. Abra `http://localhost:3333` no navegador.
+
+Para testar, use um destes usuários do script (e-mail e senha): `daniel@teste.com` / `123`, `marianaa@teste.com` / `456` ou `eduarda@teste.com` / `789`. Todos os dados são fictícios.
 
 <br>
 
