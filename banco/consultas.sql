@@ -3,14 +3,15 @@ USE colo_de_mae;
 -- ===== CONSULTAS SIMPLES =====
 
 SELECT * FROM usuario;
-SELECT * FROM memoria;
-SELECT * FROM colo;
 SELECT * FROM sentimento;
+SELECT * FROM colo;
+SELECT * FROM memoria;
 SELECT * FROM memoria_colo;
-SELECT * FROM memoria_sentimento;
 
--- Colos padrão (sem dono) e colos criados por um usuário
+-- Sentimentos e colos padrão (sem dono) e os criados por um usuário
+SELECT * FROM sentimento WHERE fk_usuario IS NULL;
 SELECT * FROM colo WHERE fk_usuario IS NULL;
+SELECT * FROM sentimento WHERE fk_usuario = 2;
 SELECT * FROM colo WHERE fk_usuario = 2;
 
 -- Cada usuário com as suas memórias (1:n)
@@ -18,17 +19,16 @@ SELECT usuario.nome, memoria.titulo, memoria.data
 FROM usuario
 JOIN memoria ON usuario.id_usuario = memoria.fk_usuario;
 
+-- Cada memória com o seu sentimento (1:n)
+SELECT memoria.titulo, sentimento.nome AS sentimento
+FROM memoria
+JOIN sentimento ON sentimento.id_sentimento = memoria.fk_sentimento;
+
 -- Cada memória com os seus colos (n:n passando pela tabela do meio)
 SELECT memoria.titulo, colo.nome AS colo
 FROM memoria
 JOIN memoria_colo ON memoria.id_memoria = memoria_colo.fk_memoria
 JOIN colo ON colo.id_colo = memoria_colo.fk_colo;
-
--- Cada memória com os seus sentimentos (n:n passando pela tabela do meio)
-SELECT memoria.titulo, sentimento.nome AS sentimento
-FROM memoria
-JOIN memoria_sentimento ON memoria.id_memoria = memoria_sentimento.fk_memoria
-JOIN sentimento ON sentimento.id_sentimento = memoria_sentimento.fk_sentimento;
 
 -- Memórias em que a Mãe foi o colo
 SELECT memoria.titulo, memoria.data
@@ -37,11 +37,11 @@ JOIN memoria_colo ON memoria.id_memoria = memoria_colo.fk_memoria
 JOIN colo ON colo.id_colo = memoria_colo.fk_colo
 WHERE colo.nome = 'Mãe';
 
--- Cada memória com todos os sentimentos juntos numa linha só
-SELECT memoria.titulo, GROUP_CONCAT(sentimento.nome) AS sentimentos
+-- Cada memória com todos os colos juntos numa linha só
+SELECT memoria.titulo, GROUP_CONCAT(colo.nome) AS colos
 FROM memoria
-JOIN memoria_sentimento ON memoria.id_memoria = memoria_sentimento.fk_memoria
-JOIN sentimento ON sentimento.id_sentimento = memoria_sentimento.fk_sentimento
+JOIN memoria_colo ON memoria.id_memoria = memoria_colo.fk_memoria
+JOIN colo ON colo.id_colo = memoria_colo.fk_colo
 GROUP BY memoria.id_memoria, memoria.titulo;
 
 -- Colos que ainda não aparecem em nenhuma memória
@@ -53,16 +53,15 @@ WHERE memoria_colo.fk_colo IS NULL;
 -- Sentimentos que ainda não aparecem em nenhuma memória
 SELECT sentimento.nome
 FROM sentimento
-LEFT JOIN memoria_sentimento ON sentimento.id_sentimento = memoria_sentimento.fk_sentimento
-WHERE memoria_sentimento.fk_sentimento IS NULL;
+LEFT JOIN memoria ON sentimento.id_sentimento = memoria.fk_sentimento
+WHERE memoria.id_memoria IS NULL;
 
 -- ===== INDICADORES DA DASHBOARD (usuário 2) =====
 
--- Sentimentos mais citados
+-- Quantas memórias por sentimento
 SELECT sentimento.nome, COUNT(*) AS total
 FROM sentimento
-JOIN memoria_sentimento ON sentimento.id_sentimento = memoria_sentimento.fk_sentimento
-JOIN memoria ON memoria.id_memoria = memoria_sentimento.fk_memoria
+JOIN memoria ON sentimento.id_sentimento = memoria.fk_sentimento
 WHERE memoria.fk_usuario = 2
 GROUP BY sentimento.nome
 ORDER BY total DESC;
@@ -94,14 +93,15 @@ SELECT colo.nome AS colo, sentimento.nome AS sentimento, COUNT(*) AS total
 FROM colo
 JOIN memoria_colo ON colo.id_colo = memoria_colo.fk_colo
 JOIN memoria ON memoria.id_memoria = memoria_colo.fk_memoria
-JOIN memoria_sentimento ON memoria.id_memoria = memoria_sentimento.fk_memoria
-JOIN sentimento ON sentimento.id_sentimento = memoria_sentimento.fk_sentimento
+JOIN sentimento ON sentimento.id_sentimento = memoria.fk_sentimento
 WHERE memoria.fk_usuario = 2
 GROUP BY colo.nome, sentimento.nome
 ORDER BY colo.nome, total DESC;
 
 -- Uma memória sorteada para reler
-SELECT * FROM memoria
-WHERE fk_usuario = 2
+SELECT memoria.*, sentimento.nome AS sentimento
+FROM memoria
+JOIN sentimento ON sentimento.id_sentimento = memoria.fk_sentimento
+WHERE memoria.fk_usuario = 2
 ORDER BY RAND()
 LIMIT 1;
