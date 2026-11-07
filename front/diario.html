@@ -100,6 +100,7 @@
             </button>
             <div id="lista_sentimento" class="dropdown-lista"></div>
           </div>
+          <div id="div_aviso_sentimento"></div>
 
           <label for="btn_colo">Você se sentiu no colo de quem?</label>
           <div class="dropdown" onmouseleave="fecharListas()">
@@ -108,6 +109,7 @@
             </button>
             <div id="lista_colo" class="dropdown-lista"></div>
           </div>
+          <div id="div_aviso_colo"></div>
           <div id="div_colos_escolhidos" class="colos-escolhidos"></div>
 
           <label for="ipt_foto">Link da foto</label>
@@ -154,19 +156,6 @@
         </button>
       </div>
     </div>
-
-    <!-- JANELA PARA CONFIRMAR EXCLUSÃO -->
-    <div id="modal_excluir" class="modal-fundo">
-      <div class="modal-caixa modal-pequeno">
-        <button class="modal-fechar" onclick="fecharExcluir()">✕</button>
-        <h3 class="modal-titulo">Excluir?</h3>
-        <p class="modal-descricao" id="p_excluir"></p>
-        <div id="div_excluir"></div>
-        <button type="button" class="botao botao-largo" onclick="confirmarExclusao()">
-          Excluir
-        </button>
-      </div>
-    </div>
   </body>
 </html>
 
@@ -176,8 +165,6 @@
   let listaColos = [];
   let colosEscolhidos = [];
   let tipoAdicionar = "";
-  let tipoExcluir = "";
-  let idExcluir = 0;
   let listaMemorias = [];
   let siglasMeses = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
   let iconeLixeira = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7A5C54" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></svg>`;
@@ -213,6 +200,10 @@
       lista = lista_sentimento;
     }
 
+    // some o aviso de exclusão que estava na tela
+    div_aviso_sentimento.innerHTML = "";
+    div_aviso_colo.innerHTML = "";
+
     if (lista.style.display == "block") {
       lista.style.display = "none";
     } else {
@@ -242,26 +233,21 @@
     });
   }
 
-  // uma linha por sentimento; o escolhido fica destacado; os criados por você ganham a lixeirinha
+  // uma linha por sentimento, cada uma com a lixeirinha; o escolhido fica destacado
   function montarListaSentimento() {
     let linhas = "";
 
     for (let i = 0; i < listaSentimentos.length; i++) {
       let classe = "dropdown-item";
-      let lixeira = "";
 
       if (listaSentimentos[i].id_sentimento == sentimentoEscolhido) {
         classe = "dropdown-item dropdown-selecionado";
       }
 
-      if (listaSentimentos[i].fk_usuario != null) {
-        lixeira = `<button type="button" class="botao-lixeira" onclick="pedirExclusao('sentimento', ${listaSentimentos[i].id_sentimento})">${iconeLixeira}</button>`;
-      }
-
       linhas += `
         <div class="${classe}">
           <span class="dropdown-nome" onclick="escolherSentimento(${listaSentimentos[i].id_sentimento})">${listaSentimentos[i].nome}</span>
-          ${lixeira}
+          <button type="button" class="botao-lixeira" onclick="excluir('sentimento', ${listaSentimentos[i].id_sentimento})">${iconeLixeira}</button>
         </div>
       `;
     }
@@ -307,32 +293,25 @@
     });
   }
 
+  // todas as pessoas ficam na lista, cada uma com a lixeirinha; as escolhidas ficam destacadas
   function montarListaColo() {
     let linhas = "";
 
     for (let i = 0; i < listaColos.length; i++) {
-      let jaEscolhido = 0;
+      let classe = "dropdown-item";
 
       for (let j = 0; j < colosEscolhidos.length; j++) {
         if (colosEscolhidos[j] == listaColos[i].id_colo) {
-          jaEscolhido++;
+          classe = "dropdown-item dropdown-selecionado";
         }
       }
 
-      if (jaEscolhido == 0) {
-        let lixeira = "";
-
-        if (listaColos[i].fk_usuario != null) {
-          lixeira = `<button type="button" class="botao-lixeira" onclick="pedirExclusao('colo', ${listaColos[i].id_colo})">${iconeLixeira}</button>`;
-        }
-
-        linhas += `
-          <div class="dropdown-item">
-            <span class="dropdown-nome" onclick="escolherColo(${listaColos[i].id_colo})">${listaColos[i].nome}</span>
-            ${lixeira}
-          </div>
-        `;
-      }
+      linhas += `
+        <div class="${classe}">
+          <span class="dropdown-nome" onclick="escolherColo(${listaColos[i].id_colo})">${listaColos[i].nome}</span>
+          <button type="button" class="botao-lixeira" onclick="excluir('colo', ${listaColos[i].id_colo})">${iconeLixeira}</button>
+        </div>
+      `;
     }
 
     linhas += `<div class="dropdown-novo" onclick="abrirAdicionar('colo')">＋ Adicionar outra pessoa…</div>`;
@@ -359,8 +338,20 @@
     div_colos_escolhidos.innerHTML = chips;
   }
 
+  // só escolhe se a pessoa ainda não estiver escolhida
   function escolherColo(id) {
-    colosEscolhidos.push(id);
+    let jaEscolhido = 0;
+
+    for (let i = 0; i < colosEscolhidos.length; i++) {
+      if (colosEscolhidos[i] == id) {
+        jaEscolhido++;
+      }
+    }
+
+    if (jaEscolhido == 0) {
+      colosEscolhidos.push(id);
+    }
+
     fecharListas();
     montarChipsColo();
     montarListaColo();
@@ -497,17 +488,19 @@
     }
   }
 
-  // ---------- JANELA DE EXCLUIR (sentimento ou pessoa) ----------
+  // ---------- EXCLUIR (sentimento ou pessoa) ----------
 
-  function pedirExclusao(tipo, id) {
-    tipoExcluir = tipo;
-    idExcluir = id;
-    div_excluir.innerHTML = "";
-    fecharListas();
-
+  // clicou na lixeira: exclui direto; se estiver em uso, mostra o aviso embaixo do campo
+  function excluir(tipo, id) {
+    let rota = "colos";
     let nome = "";
 
+    div_aviso_sentimento.innerHTML = "";
+    div_aviso_colo.innerHTML = "";
+
     if (tipo == "sentimento") {
+      rota = "sentimentos";
+
       for (let i = 0; i < listaSentimentos.length; i++) {
         if (listaSentimentos[i].id_sentimento == id) {
           nome = listaSentimentos[i].nome;
@@ -521,28 +514,13 @@
       }
     }
 
-    p_excluir.innerHTML = `Você quer mesmo excluir "${nome}"?`;
-    modal_excluir.style.display = "flex";
-  }
-
-  function fecharExcluir() {
-    modal_excluir.style.display = "none";
-  }
-
-  function confirmarExclusao() {
-    let rota = "colos";
-
-    if (tipoExcluir == "sentimento") {
-      rota = "sentimentos";
-    }
-
-    fetch(`/${rota}/excluir/${idExcluir}/${sessionStorage.ID_USUARIO}`, {
+    fetch(`/${rota}/excluir/${id}/${sessionStorage.ID_USUARIO}`, {
       method: "DELETE",
     })
       .then(function (resposta) {
         if (resposta.ok) {
-          if (tipoExcluir == "sentimento") {
-            if (sentimentoEscolhido == idExcluir) {
+          if (tipo == "sentimento") {
+            if (sentimentoEscolhido == id) {
               sentimentoEscolhido = 0;
             }
 
@@ -551,7 +529,7 @@
             let novos = [];
 
             for (let i = 0; i < colosEscolhidos.length; i++) {
-              if (colosEscolhidos[i] != idExcluir) {
+              if (colosEscolhidos[i] != id) {
                 novos.push(colosEscolhidos[i]);
               }
             }
@@ -559,17 +537,25 @@
             colosEscolhidos = novos;
             carregarColos();
           }
-
-          modal_excluir.style.display = "none";
         } else {
-          resposta.text().then(function (texto) {
-            div_excluir.innerHTML = `<span style="color: red;">${texto}</span>`;
-          });
+          // a lista fecha para o aviso aparecer embaixo do campo
+          fecharListas();
+
+          let aviso = `• "${nome}" está sendo usado em uma memória. Tire-o da memória antes de excluir.`;
+
+          if (resposta.status != 400) {
+            aviso = "• Não foi possível excluir. Tente novamente.";
+          }
+
+          if (tipo == "sentimento") {
+            div_aviso_sentimento.innerHTML = `<span style="color: red;">${aviso}</span>`;
+          } else {
+            div_aviso_colo.innerHTML = `<span style="color: red;">${aviso}</span>`;
+          }
         }
       })
       .catch(function (erro) {
         console.log(erro);
-        div_excluir.innerHTML = `<span style="color: red;">Erro de conexão com o servidor.</span>`;
       });
   }
 
