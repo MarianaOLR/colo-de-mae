@@ -12,6 +12,7 @@ let app = express();
 let usuarioRouter = require("./src/routes/usuarios");
 let memoriaRouter = require("./src/routes/memorias");
 let coloRouter = require("./src/routes/colos");
+let sentimentosRouter = require("./src/routes/sentimentos");
 let indicadorRouter = require("./src/routes/indicadores");
 
 app.use(express.json());
@@ -22,6 +23,7 @@ app.use(cors());
 app.use("/usuarios", usuarioRouter);
 app.use("/memorias", memoriaRouter);
 app.use("/colos", coloRouter);
+app.use("/sentimentos", sentimentosRouter);
 app.use("/indicadores", indicadorRouter);
 
 app.listen(PORTA_APP, function () {
