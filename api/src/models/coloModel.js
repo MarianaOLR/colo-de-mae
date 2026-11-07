@@ -1,12 +1,13 @@
 let database = require("../database/config");
 
 function listar(fkUsuario) {
-    let instrucaoSql = `
-        SELECT id_colo, nome, fk_usuario FROM colo
-        WHERE fk_usuario IS NULL OR fk_usuario = ${fkUsuario}
-        ORDER BY nome;
+    let instrucao = `
+        SELECT id_colo, nome, fk_usuario
+        FROM colo
+        WHERE fk_usuario = ${fkUsuario}
+        ORDER BY id_colo;
     `;
-    return database.executar(instrucaoSql);
+    return database.executar(instrucao);
 }
 
 function cadastrar(nome, fkUsuario) {

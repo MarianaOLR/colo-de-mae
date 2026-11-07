@@ -1,5 +1,10 @@
 let usuarioModel = require("../models/usuarioModel");
 
+function mostrarErro(res, erro) {
+    console.log(erro);
+    res.status(500).json(erro.sqlMessage);
+}
+
 function cadastrar(req, res) {
     let nome = req.body.nomeServer;
     let email = req.body.emailServer;
@@ -14,11 +19,24 @@ function cadastrar(req, res) {
     } else {
         usuarioModel.cadastrar(nome, email, senha)
             .then(function (resultado) {
-                res.json(resultado);
+                let idNovo = resultado.insertId;
+
+                usuarioModel.criarSentimentos(idNovo)
+                    .then(function () {
+                        usuarioModel.criarColos(idNovo)
+                            .then(function () {
+                                res.json(resultado);
+                            })
+                            .catch(function (erro) {
+                                mostrarErro(res, erro);
+                            });
+                    })
+                    .catch(function (erro) {
+                        mostrarErro(res, erro);
+                    });
             })
             .catch(function (erro) {
-                console.log(erro);
-                res.status(500).json(erro.sqlMessage);
+                mostrarErro(res, erro);
             });
     }
 }
@@ -50,4 +68,4 @@ function autenticar(req, res) {
 module.exports = {
     cadastrar,
     autenticar
-};
+}
