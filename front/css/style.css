@@ -814,3 +814,90 @@ footer {
     font-size: 13px;
     color: #7A5C54;
 }
+
+/* ===== AQUARELA DE FUNDO ===== */
+body {
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before,
+body::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    filter: blur(16px);
+}
+
+body::before {
+    left: -90px;
+    top: -70px;
+    width: 380px;
+    height: 340px;
+    border-radius: 58% 42% 55% 45% / 48% 56% 44% 52%;
+    background: #A9C4A0;
+    opacity: 0.3;
+}
+
+body::after {
+    right: -80px;
+    top: -90px;
+    width: 430px;
+    height: 360px;
+    border-radius: 45% 55% 40% 60% / 55% 45% 55% 45%;
+    background: #B7A5D6;
+    opacity: 0.3;
+}
+
+/* manchas do meio da dashboard */
+.dash {
+    position: relative;
+}
+
+.dash::before,
+.dash::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    filter: blur(16px);
+}
+
+.dash::before {
+    left: calc(560px - 50vw - 110px);
+    top: 380px;
+    width: 400px;
+    height: 360px;
+    border-radius: 55% 45% 50% 50% / 45% 55% 45% 55%;
+    background: #F2B5A4;
+    opacity: 0.3;
+}
+
+.dash::after {
+    right: calc(560px - 50vw - 90px);
+    top: 300px;
+    width: 420px;
+    height: 380px;
+    border-radius: 48% 52% 58% 42% / 52% 48% 52% 48%;
+    background: #B7A5D6;
+    opacity: 0.22;
+}
+
+/* ===== ÍCONE DAS KPIs ===== */
+.kpi {
+    position: relative;
+}
+
+.kpi-icone {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: #FBEFE3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
