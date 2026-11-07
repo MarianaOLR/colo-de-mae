@@ -1354,3 +1354,19 @@ footer {
 .colos-escolhidos:empty {
     display: none;
 }
+
+/* ===== SENTIMENTO ESCOLHIDO DESTACADO NA LISTA ===== */
+.dropdown-selecionado {
+    background: #FBEFE3;
+    font-weight: 600;
+}
+
+/* lista encostada no botão (sem vão onde o mouse "sai" do campo) */
+.dropdown-lista {
+    top: 46px;
+}
+
+/* pílulas da dashboard: cor neutra para os sentimentos criados por você */
+.aleatoria-pilula {
+    background: #EBD5C6;
+}

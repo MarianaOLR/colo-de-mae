@@ -93,14 +93,13 @@
             placeholder="Uma frase para levar com você"
           />
 
-          <label for="btn_sentimento">Sentimentos</label>
+          <label for="btn_sentimento">Sentimento</label>
           <div class="dropdown" onmouseleave="fecharListas()">
             <button type="button" id="btn_sentimento" class="dropdown-botao" onclick="abrirLista('sentimento')">
-              Selecione uma opção <span>▾</span>
+              <span id="span_sentimento">Selecione uma opção</span> <span>▾</span>
             </button>
             <div id="lista_sentimento" class="dropdown-lista"></div>
           </div>
-          <div id="div_sentimentos_escolhidos" class="colos-escolhidos"></div>
 
           <label for="btn_colo">Você se sentiu no colo de quem?</label>
           <div class="dropdown" onmouseleave="fecharListas()">
@@ -173,7 +172,7 @@
 
 <script>
   let listaSentimentos = [];
-  let sentimentosEscolhidos = [];
+  let sentimentoEscolhido = 0;
   let listaColos = [];
   let colosEscolhidos = [];
   let tipoAdicionar = "";
@@ -227,7 +226,7 @@
     lista_colo.style.display = "none";
   }
 
-  // ---------- SENTIMENTOS ----------
+  // ---------- SENTIMENTO (escolhe um só) ----------
 
   function carregarSentimentos() {
     let fkUsuario = sessionStorage.ID_USUARIO;
@@ -237,39 +236,34 @@
         resposta.json().then(function (sentimentos) {
           listaSentimentos = sentimentos;
           montarListaSentimento();
-          montarChipsSentimento();
+          montarBotaoSentimento();
         });
       }
     });
   }
 
-  // cada sentimento ainda não escolhido vira uma linha; os criados por você ganham a lixeirinha
+  // uma linha por sentimento; o escolhido fica destacado; os criados por você ganham a lixeirinha
   function montarListaSentimento() {
     let linhas = "";
 
     for (let i = 0; i < listaSentimentos.length; i++) {
-      let jaEscolhido = 0;
+      let classe = "dropdown-item";
+      let lixeira = "";
 
-      for (let j = 0; j < sentimentosEscolhidos.length; j++) {
-        if (sentimentosEscolhidos[j] == listaSentimentos[i].id_sentimento) {
-          jaEscolhido++;
-        }
+      if (listaSentimentos[i].id_sentimento == sentimentoEscolhido) {
+        classe = "dropdown-item dropdown-selecionado";
       }
 
-      if (jaEscolhido == 0) {
-        let lixeira = "";
-
-        if (listaSentimentos[i].fk_usuario != null) {
-          lixeira = `<button type="button" class="botao-lixeira" onclick="pedirExclusao('sentimento', ${listaSentimentos[i].id_sentimento})">${iconeLixeira}</button>`;
-        }
-
-        linhas += `
-          <div class="dropdown-item">
-            <span class="dropdown-nome" onclick="escolherSentimento(${listaSentimentos[i].id_sentimento})">${listaSentimentos[i].nome}</span>
-            ${lixeira}
-          </div>
-        `;
+      if (listaSentimentos[i].fk_usuario != null) {
+        lixeira = `<button type="button" class="botao-lixeira" onclick="pedirExclusao('sentimento', ${listaSentimentos[i].id_sentimento})">${iconeLixeira}</button>`;
       }
+
+      linhas += `
+        <div class="${classe}">
+          <span class="dropdown-nome" onclick="escolherSentimento(${listaSentimentos[i].id_sentimento})">${listaSentimentos[i].nome}</span>
+          ${lixeira}
+        </div>
+      `;
     }
 
     linhas += `<div class="dropdown-novo" onclick="abrirAdicionar('sentimento')">＋ Adicionar outro sentimento…</div>`;
@@ -277,48 +271,27 @@
     lista_sentimento.innerHTML = linhas;
   }
 
-  // etiquetas dos sentimentos escolhidos, cada uma com um ✕
-  function montarChipsSentimento() {
-    let chips = "";
+  // o botão mostra o nome do sentimento escolhido (ou "Selecione uma opção")
+  function montarBotaoSentimento() {
+    let nome = "Selecione uma opção";
 
-    for (let i = 0; i < sentimentosEscolhidos.length; i++) {
-      let nome = "";
-
-      for (let j = 0; j < listaSentimentos.length; j++) {
-        if (listaSentimentos[j].id_sentimento == sentimentosEscolhidos[i]) {
-          nome = listaSentimentos[j].nome;
-        }
+    for (let i = 0; i < listaSentimentos.length; i++) {
+      if (listaSentimentos[i].id_sentimento == sentimentoEscolhido) {
+        nome = listaSentimentos[i].nome;
       }
-
-      chips += `<span class="chip-colo">${nome}<button type="button" onclick="removerSentimento(${i})">✕</button></span>`;
     }
 
-    div_sentimentos_escolhidos.innerHTML = chips;
+    span_sentimento.innerHTML = nome;
   }
 
   function escolherSentimento(id) {
-    sentimentosEscolhidos.push(id);
+    sentimentoEscolhido = id;
     fecharListas();
-    montarChipsSentimento();
+    montarBotaoSentimento();
     montarListaSentimento();
   }
 
-  // tira um sentimento da lista de escolhidos (cria uma lista nova sem ele)
-  function removerSentimento(posicao) {
-    let novos = [];
-
-    for (let i = 0; i < sentimentosEscolhidos.length; i++) {
-      if (i != posicao) {
-        novos.push(sentimentosEscolhidos[i]);
-      }
-    }
-
-    sentimentosEscolhidos = novos;
-    montarChipsSentimento();
-    montarListaSentimento();
-  }
-
-  // ---------- COLOS ----------
+  // ---------- COLOS (escolhe vários) ----------
 
   function carregarColos() {
     let fkUsuario = sessionStorage.ID_USUARIO;
@@ -367,6 +340,7 @@
     lista_colo.innerHTML = linhas;
   }
 
+  // etiquetas das pessoas escolhidas, cada uma com um ✕
   function montarChipsColo() {
     let chips = "";
 
@@ -392,6 +366,7 @@
     montarListaColo();
   }
 
+  // tira uma pessoa da lista de escolhidas (cria uma lista nova sem ela)
   function removerColo(posicao) {
     let novos = [];
 
@@ -466,21 +441,12 @@
       }
 
       if (idExistente != 0) {
-        let jaEscolhido = 0;
-
         if (tipoAdicionar == "sentimento") {
-          for (let i = 0; i < sentimentosEscolhidos.length; i++) {
-            if (sentimentosEscolhidos[i] == idExistente) {
-              jaEscolhido++;
-            }
-          }
-
-          if (jaEscolhido == 0) {
-            sentimentosEscolhidos.push(idExistente);
-          }
-
-          montarChipsSentimento();
+          sentimentoEscolhido = idExistente;
+          montarBotaoSentimento();
         } else {
+          let jaEscolhido = 0;
+
           for (let i = 0; i < colosEscolhidos.length; i++) {
             if (colosEscolhidos[i] == idExistente) {
               jaEscolhido++;
@@ -510,7 +476,7 @@
             if (resposta.ok) {
               resposta.json().then(function (resultado) {
                 if (tipoAdicionar == "sentimento") {
-                  sentimentosEscolhidos.push(resultado.insertId);
+                  sentimentoEscolhido = resultado.insertId;
                   carregarSentimentos();
                 } else {
                   colosEscolhidos.push(resultado.insertId);
@@ -575,18 +541,15 @@
     })
       .then(function (resposta) {
         if (resposta.ok) {
-          let novos = [];
-
           if (tipoExcluir == "sentimento") {
-            for (let i = 0; i < sentimentosEscolhidos.length; i++) {
-              if (sentimentosEscolhidos[i] != idExcluir) {
-                novos.push(sentimentosEscolhidos[i]);
-              }
+            if (sentimentoEscolhido == idExcluir) {
+              sentimentoEscolhido = 0;
             }
 
-            sentimentosEscolhidos = novos;
             carregarSentimentos();
           } else {
+            let novos = [];
+
             for (let i = 0; i < colosEscolhidos.length; i++) {
               if (colosEscolhidos[i] != idExcluir) {
                 novos.push(colosEscolhidos[i]);
@@ -633,8 +596,8 @@
       }
     }
 
-    if (sentimentosEscolhidos.length == 0) {
-      mensagem += "• Escolha pelo menos um sentimento.<br>";
+    if (sentimentoEscolhido == 0) {
+      mensagem += "• Escolha um sentimento.<br>";
       qtdErros++;
     }
 
@@ -679,8 +642,8 @@
           fraseServer: frase,
           fotoServer: foto,
           fkUsuarioServer: sessionStorage.ID_USUARIO,
+          sentimentoServer: sentimentoEscolhido,
           colosServer: colosEscolhidos,
-          sentimentosServer: sentimentosEscolhidos,
         }),
       })
         .then(function (resposta) {
@@ -694,11 +657,11 @@
             ipt_frase.value = "";
             ipt_foto.value = "";
 
-            sentimentosEscolhidos = [];
+            sentimentoEscolhido = 0;
             colosEscolhidos = [];
 
             montarListaSentimento();
-            montarChipsSentimento();
+            montarBotaoSentimento();
             montarListaColo();
             montarChipsColo();
             carregarMemorias();
@@ -735,25 +698,18 @@
             let partes = memorias[i].data.split("T")[0].split("-");
             let dataBr = `${partes[2]}/${partes[1]}/${partes[0]}`;
             let linhaColos = "";
-            let pilulas = "";
 
             if (memorias[i].colos != null) {
               linhaColos = `<p class="memoria-colos">Seu colo: ${memorias[i].colos}</p>`;
-            }
-
-            if (memorias[i].sentimentos != null) {
-              let nomes = memorias[i].sentimentos.split("|");
-
-              for (let j = 0; j < nomes.length; j++) {
-                pilulas += `<span class="memoria-sentimento" data-sentimento="${nomes[j]}">${nomes[j]}</span>`;
-              }
             }
 
             cartoes += `
               <div class="memoria-card" onclick="abrirModal(${i})">
                 <div class="memoria-topo">
                   <span class="memoria-data">${dataBr}</span>
-                  <div class="memoria-pilulas">${pilulas}</div>
+                  <div class="memoria-pilulas">
+                    <span class="memoria-sentimento" data-sentimento="${memorias[i].sentimento}">${memorias[i].sentimento}</span>
+                  </div>
                 </div>
                 <h3>${memorias[i].titulo}</h3>
                 <p>${memorias[i].frase}</p>
@@ -777,7 +733,6 @@
     let linhaMusica = "";
     let linhaFoto = "";
     let linhaColos = "";
-    let pilulas = "";
 
     if (memoria.musica != null && memoria.musica != "") {
       linhaMusica = `<p class="modal-musica"><b>Música:</b> ${memoria.musica}</p>`;
@@ -791,18 +746,10 @@
       linhaColos = `<p class="modal-colos">Seu colo: ${memoria.colos}</p>`;
     }
 
-    if (memoria.sentimentos != null) {
-      let nomes = memoria.sentimentos.split("|");
-
-      for (let j = 0; j < nomes.length; j++) {
-        pilulas += `<span class="modal-pilula" data-sentimento="${nomes[j]}">${nomes[j]}</span>`;
-      }
-    }
-
     div_modal.innerHTML = `
       <div class="modal-topo">
         <span class="modal-data">${dataExtenso}</span>
-        ${pilulas}
+        <span class="modal-pilula" data-sentimento="${memoria.sentimento}">${memoria.sentimento}</span>
       </div>
       <h3 class="modal-titulo">${memoria.titulo}</h3>
       <p class="modal-descricao">${memoria.descricao}</p>

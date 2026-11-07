@@ -405,6 +405,10 @@
       kpi_sentimento_detalhe.innerHTML = `${dados[0].total} ${palavra} · ${porcentagemMaior}% do diário`;
     }
 
+    // cores dos sentimentos que você criou (uma diferente para cada)
+    let coresReserva = ["#9CC5C9", "#D9A5B3", "#8FA9D6", "#C9B79C"];
+    let qtdExtras = 0;
+
     let nomes = [];
     let totais = [];
     let cores = [];
@@ -421,8 +425,16 @@
         cores.push("#F0CF6A");
       } else if (dados[i].sentimento == "Gratidão") {
         cores.push("#A9C4A0");
-      } else {
+      } else if (dados[i].sentimento == "Saudade") {
         cores.push("#B7A5D6");
+      } else {
+        if (qtdExtras < coresReserva.length) {
+          cores.push(coresReserva[qtdExtras]);
+        } else {
+          cores.push("#EBD5C6");
+        }
+
+        qtdExtras++;
       }
     }
 
