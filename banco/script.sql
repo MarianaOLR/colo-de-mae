@@ -8,19 +8,19 @@ CREATE TABLE usuario (
     senha VARCHAR(50)
 );
 
--- fk_usuario vazio = sentimento padrão (vale para todos); preenchido = criado pelo usuário
+-- cada usuário tem os próprios sentimentos (os 4 iniciais são copiados no cadastro)
 CREATE TABLE sentimento (
     id_sentimento INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(20),
-    fk_usuario INT NULL,
+    fk_usuario INT NOT NULL,
     FOREIGN KEY (fk_usuario) REFERENCES usuario(id_usuario)
 );
 
--- fk_usuario vazio = pessoa padrão (vale para todos); preenchido = pessoa criada pelo usuário
+-- cada usuário tem as próprias pessoas (as 4 iniciais são copiadas no cadastro)
 CREATE TABLE colo (
     id_colo INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(45),
-    fk_usuario INT NULL,
+    fk_usuario INT NOT NULL,
     FOREIGN KEY (fk_usuario) REFERENCES usuario(id_usuario)
 );
 
@@ -54,30 +54,41 @@ INSERT INTO usuario (nome, email, senha) VALUES
 ('Mariana', 'marianaa@teste.com', '456'),
 ('Eduarda', 'eduarda@teste.com', '789');
 
-INSERT INTO sentimento (nome) VALUES
-('Amor'), ('Alegria'), ('Gratidão'), ('Saudade');
+-- ids 1 a 4: Daniel | 5 a 8: Mariana | 9 a 12: Eduarda
+INSERT INTO sentimento (nome, fk_usuario) VALUES
+('Amor', 1), ('Alegria', 1), ('Gratidão', 1), ('Saudade', 1),
+('Amor', 2), ('Alegria', 2), ('Gratidão', 2), ('Saudade', 2),
+('Amor', 3), ('Alegria', 3), ('Gratidão', 3), ('Saudade', 3);
 
-INSERT INTO colo (nome) VALUES
-('Mãe'), ('Amiga'), ('Namorado'), ('Eu mesma');
+-- ids 1 a 4: Daniel | 5 a 8: Mariana | 9 a 12: Eduarda
+INSERT INTO colo (nome, fk_usuario) VALUES
+('Mãe', 1), ('Amiga', 1), ('Namorado', 1), ('Eu mesma', 1),
+('Mãe', 2), ('Amiga', 2), ('Namorado', 2), ('Eu mesma', 2),
+('Mãe', 3), ('Amiga', 3), ('Namorado', 3), ('Eu mesma', 3);
 
--- fk_sentimento: 1 Amor, 2 Alegria, 3 Gratidão, 4 Saudade
+-- fk_sentimento: Daniel 1 Amor, 2 Alegria, 3 Gratidão, 4 Saudade
+--                Mariana 5 Amor, 6 Alegria, 7 Gratidão, 8 Saudade
+--                Eduarda 9 Amor, 10 Alegria, 11 Gratidão, 12 Saudade
 INSERT INTO memoria (titulo, data, descricao, musica, frase, foto, fk_usuario, fk_sentimento) VALUES
 ('Natal em família', '2025-12-25', 'Ceia na casa da tia com a mesa cheia', 'Então é Natal', 'Família é o melhor presente', 'https://exemplo.com/natal.jpg', 1, 1),
-('Virada do ano', '2026-01-01', 'Fogos vendo da janela de casa', 'Show das Poderosas', 'Que venha o novo ano', 'https://exemplo.com/anonovo.jpg', 2, 2),
-('Carnaval', '2026-02-17', 'Bloquinho na rua com as amigas', 'Mas que nada', 'Pular até cansar', 'https://exemplo.com/carnaval.jpg', 3, 2),
+('Virada do ano', '2026-01-01', 'Fogos vendo da janela de casa', 'Show das Poderosas', 'Que venha o novo ano', 'https://exemplo.com/anonovo.jpg', 2, 6),
+('Carnaval', '2026-02-17', 'Bloquinho na rua com as amigas', 'Mas que nada', 'Pular até cansar', 'https://exemplo.com/carnaval.jpg', 3, 10),
 ('Páscoa', '2026-04-05', 'Almoço em família e ovos de chocolate', 'Ovo de Páscoa', 'Gratidão por estarmos juntas', 'https://exemplo.com/pascoa.jpg', 1, 3),
-('Dia das Mães', '2026-05-10', 'Café da manhã surpresa na cama', 'Mãe', 'Mãe é amor em forma de gente', 'https://exemplo.com/maes1.jpg', 2, 1),
-('Dia das Mães', '2026-05-10', 'Bolo e flores para a mamãe', 'Super Mãe', 'Obrigada por tudo', 'https://exemplo.com/maes2.jpg', 3, 1),
-('Festa junina', '2026-06-13', 'Quadrilha na escola, lembrei da infância', 'Flor de tangerina', 'Que saudade daquele tempo', 'https://exemplo.com/junina.jpg', 3, 4);
+('Dia das Mães', '2026-05-10', 'Café da manhã surpresa na cama', 'Mãe', 'Mãe é amor em forma de gente', 'https://exemplo.com/maes1.jpg', 2, 5),
+('Dia das Mães', '2026-05-10', 'Bolo e flores para a mamãe', 'Super Mãe', 'Obrigada por tudo', 'https://exemplo.com/maes2.jpg', 3, 9),
+('Festa junina', '2026-06-13', 'Quadrilha na escola, lembrei da infância', 'Flor de tangerina', 'Que saudade daquele tempo', 'https://exemplo.com/junina.jpg', 3, 12);
 
+-- fk_colo: Daniel 1 Mãe, 2 Amiga, 3 Namorado, 4 Eu mesma
+--          Mariana 5 Mãe, 6 Amiga, 7 Namorado, 8 Eu mesma
+--          Eduarda 9 Mãe, 10 Amiga, 11 Namorado, 12 Eu mesma
 INSERT INTO memoria_colo (fk_memoria, fk_colo) VALUES
 (1, 1),
-(2, 4),
-(3, 2),
+(2, 8),
+(3, 10),
 (4, 1), (4, 4),
-(5, 1),
-(6, 1),
-(7, 1), (7, 2);
+(5, 5),
+(6, 9),
+(7, 9), (7, 10);
 
 SELECT * FROM usuario;
 SELECT * FROM sentimento;
