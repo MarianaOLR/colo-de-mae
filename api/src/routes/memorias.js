@@ -11,4 +11,8 @@ router.get("/listar/:fkUsuario", function (req, res) {
     memoriaController.listar(req, res);
 });
 
+router.delete("/excluir/:idMemoria/:fkUsuario", function (req, res) {
+    memoriaController.excluir(req, res);
+});
+
 module.exports = router;

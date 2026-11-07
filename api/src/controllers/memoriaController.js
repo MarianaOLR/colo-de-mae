@@ -61,7 +61,39 @@ function listar(req, res) {
     }
 }
 
+function excluir(req, res) {
+    let idMemoria = req.params.idMemoria;
+    let fkUsuario = req.params.fkUsuario;
+
+    if (idMemoria == undefined) {
+        res.status(400).send("O id da memória está undefined!");
+    } else if (fkUsuario == undefined) {
+        res.status(400).send("O id do usuário está undefined!");
+    } else {
+        memoriaModel.apagarColos(idMemoria)
+            .then(function () {
+                memoriaModel.excluir(idMemoria, fkUsuario)
+                    .then(function (resultado) {
+                        if (resultado.affectedRows == 0) {
+                            res.status(403).send("Essa memória não é sua!");
+                        } else {
+                            res.status(200).json(resultado);
+                        }
+                    })
+                    .catch(function (erro) {
+                        console.log(erro);
+                        res.status(500).json(erro.sqlMessage);
+                    });
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
 module.exports = {
     cadastrar,
-    listar
+    listar,
+    excluir
 };

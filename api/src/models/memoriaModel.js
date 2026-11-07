@@ -41,8 +41,25 @@ function listar(fkUsuario) {
     return database.executar(instrucao);
 }
 
+function apagarColos(idMemoria) {
+    let instrucaoSql = `
+        DELETE FROM memoria_colo WHERE fk_memoria = ${idMemoria};
+    `;
+    return database.executar(instrucaoSql);
+}
+
+function excluir(idMemoria, fkUsuario) {
+    let instrucaoSql = `
+        DELETE FROM memoria
+        WHERE id_memoria = ${idMemoria} AND fk_usuario = ${fkUsuario};
+    `;
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     cadastrar,
     ligarColos,
-    listar
+    listar,
+    apagarColos,
+    excluir
 };
