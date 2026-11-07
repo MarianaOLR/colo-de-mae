@@ -3,7 +3,7 @@
 | Data | Assistente | O que pedi | O que usei | O que mudei |
 |------|------------|------------|------------|-------------|
 | 22/10/2026 | Claude | Ajuda para escolher o tema do projeto | Ideias de temas a partir da minha Linha da Vida | Escolhi o tema das mães e defini o nome "Colo de Mãe" |
-| 22/10/2026 | Claude | Ajuda para escrever o documento do projeto | Estrutura das seções e formatação ABNT | Reescrevi contexto, objetivo e justificativa com as minhas ideias; troquei o semestre para 2026/1 |
+| 22/10/2026 | Claude | Ajuda para escrever o documento do projeto | Estrutura das seções e formatação ABNT | Reescrevi contexto, objetivo e justificativa com as minhas ideias; troquei o semestre para 2026/2 |
 | 22/10/2026 | Claude | Passo a passo do Git e do GitHub | Comandos de configuração, clone, commit e push | Resolvi o erro de permissão (403) trocando o login salvo no Windows |
 | 30/10/2026 | Claude | Conferir se o meu modelo lógico (usuario 1:N memoria) estava certo | A conferência dos relacionamentos (PK, FK no lado N, AUTO_INCREMENT) | Fiz o modelo eu mesma no Workbench e salvei o .mwb e o .png em docs/ |
 | 30/10/2026 | Claude | Consultas SQL para os indicadores do dashboard | SELECT com WHERE e BETWEEN, porque ainda não vi COUNT nem GROUP BY | Criei o consultas.sql, rodei no Workbench e conferi os resultados (maio retornou 2). Deixei a dúvida de COUNT e GROUP BY para o professor |
@@ -68,3 +68,4 @@
 | 07/11/2026 | Claude | Pedi para revisar o consultas.sql depois que sentimento e colo passaram a ter dono | Usei a troca das consultas com `fk_usuario IS NULL` por consultas por usuário, e duas consultas novas (`COUNT` com `GROUP BY` por usuário e a conferência do dono do sentimento) | Rodei cada consulta no Workbench e conferi o resultado com os dados de teste |
 | 07/11/2026 | Claude | Pedi para atualizar o README com o que o site faz hoje | Usei o README novo, com os sentimentos e pessoas por usuário, os indicadores reais da dashboard, as 5 tabelas e os relacionamentos, o andamento atualizado e a seção "Como rodar" | Conferi os usuários de teste e o passo a passo de rodar no meu computador |
 | 07/11/2026 | Claude | Pedi para atualizar as telas da pasta docs/telas-finais com o protótipo que fizemos | Usei as 6 telas do protótipo (Home, Cadastro, Login, Diário, janela da memória e Dashboard) exportadas em PNG | Conferi uma por uma contra o protótipo e troquei os arquivos antigos |
+| 07/11/2026 | Claude | Pedi para conferir se o semestre estava igual no documento e no diário | Usei a comparação entre a capa do documento, o nome do PDF da aula e a linha do diário | Corrigi a linha de 22/10 do diário para 2026/2, igual ao documento |
