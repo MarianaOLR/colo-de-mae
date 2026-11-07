@@ -2,10 +2,11 @@ let database = require("../database/config");
 
 function sentimentos(fkUsuario) {
     let instrucao = `
-        SELECT sentimento, COUNT(*) AS total
-        FROM memoria
-        WHERE fk_usuario = ${fkUsuario}
-        GROUP BY sentimento
+        SELECT sentimento.nome AS sentimento, COUNT(*) AS total
+        FROM sentimento
+        JOIN memoria ON sentimento.id_sentimento = memoria.fk_sentimento
+        WHERE memoria.fk_usuario = ${fkUsuario}
+        GROUP BY sentimento.nome
         ORDER BY total DESC;
     `;
     return database.executar(instrucao);
@@ -13,9 +14,11 @@ function sentimentos(fkUsuario) {
 
 function memoriaAleatoria(fkUsuario) {
     let instrucao = `
-        SELECT titulo, data, descricao, musica, frase, sentimento
+        SELECT memoria.titulo, memoria.data, memoria.descricao, memoria.musica,
+               memoria.frase, sentimento.nome AS sentimento
         FROM memoria
-        WHERE fk_usuario = ${fkUsuario}
+        JOIN sentimento ON sentimento.id_sentimento = memoria.fk_sentimento
+        WHERE memoria.fk_usuario = ${fkUsuario}
         ORDER BY RAND()
         LIMIT 1;
     `;
@@ -60,12 +63,13 @@ function colos(fkUsuario) {
 
 function colosSentimentos(fkUsuario) {
     let instrucao = `
-        SELECT colo.nome, memoria.sentimento, COUNT(*) AS total
+        SELECT colo.nome, sentimento.nome AS sentimento, COUNT(*) AS total
         FROM colo
         JOIN memoria_colo ON colo.id_colo = memoria_colo.fk_colo
         JOIN memoria ON memoria.id_memoria = memoria_colo.fk_memoria
+        JOIN sentimento ON sentimento.id_sentimento = memoria.fk_sentimento
         WHERE memoria.fk_usuario = ${fkUsuario}
-        GROUP BY colo.nome, memoria.sentimento
+        GROUP BY colo.nome, sentimento.nome
         ORDER BY colo.nome, total DESC;
     `;
     return database.executar(instrucao);

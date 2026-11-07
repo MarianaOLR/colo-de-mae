@@ -18,7 +18,7 @@ function cadastrar(nome, fkUsuario) {
 
 function contarUso(idSentimento) {
     let instrucaoSql = `
-        SELECT COUNT(*) AS total FROM memoria_sentimento
+        SELECT COUNT(*) AS total FROM memoria
         WHERE fk_sentimento = ${idSentimento};
     `;
     return database.executar(instrucaoSql);
