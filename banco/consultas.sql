@@ -8,11 +8,25 @@ SELECT * FROM colo;
 SELECT * FROM memoria;
 SELECT * FROM memoria_colo;
 
--- Sentimentos e colos padrão (sem dono) e os criados por um usuário
-SELECT * FROM sentimento WHERE fk_usuario IS NULL;
-SELECT * FROM colo WHERE fk_usuario IS NULL;
+-- Sentimentos e colos de um usuário (cada um tem os seus)
 SELECT * FROM sentimento WHERE fk_usuario = 2;
 SELECT * FROM colo WHERE fk_usuario = 2;
+
+-- Quantos sentimentos e quantos colos cada usuário tem (1:n)
+SELECT usuario.nome,
+       COUNT(DISTINCT sentimento.id_sentimento) AS sentimentos,
+       COUNT(DISTINCT colo.id_colo) AS colos
+FROM usuario
+JOIN sentimento ON sentimento.fk_usuario = usuario.id_usuario
+JOIN colo ON colo.fk_usuario = usuario.id_usuario
+GROUP BY usuario.nome;
+
+-- Conferir que cada memória usa um sentimento do próprio dono
+SELECT memoria.titulo, usuario.nome AS dono_da_memoria,
+       sentimento.nome AS sentimento, sentimento.fk_usuario AS dono_do_sentimento
+FROM memoria
+JOIN usuario ON usuario.id_usuario = memoria.fk_usuario
+JOIN sentimento ON sentimento.id_sentimento = memoria.fk_sentimento;
 
 -- Cada usuário com as suas memórias (1:n)
 SELECT usuario.nome, memoria.titulo, memoria.data
