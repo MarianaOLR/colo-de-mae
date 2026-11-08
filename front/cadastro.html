@@ -272,6 +272,8 @@
                 setTimeout(function () {
                   window.location = "login.html";
                 }, 2000);
+              } else if (resposta.status == 409) {
+                div_mensagem.innerHTML = `<span style="color: red;">Este e-mail já está cadastrado. Tente fazer login.</span>`;
               } else {
                 div_mensagem.innerHTML = `<span style="color: red;">Não foi possível cadastrar. Tente novamente.</span>`;
               }

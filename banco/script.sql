@@ -4,7 +4,7 @@ USE colo_de_mae;
 CREATE TABLE usuario (
     id_usuario INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(50),
-    email VARCHAR(50),
+    email VARCHAR(50) UNIQUE,
     senha VARCHAR(50)
 );
 

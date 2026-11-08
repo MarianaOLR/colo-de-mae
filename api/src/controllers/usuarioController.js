@@ -36,7 +36,11 @@ function cadastrar(req, res) {
                     });
             })
             .catch(function (erro) {
-                mostrarErro(res, erro);
+                if (erro.code == "ER_DUP_ENTRY") {
+                    res.status(409).send("E-mail já cadastrado");
+                } else {
+                    mostrarErro(res, erro);
+                }
             });
     }
 }
