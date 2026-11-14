@@ -805,6 +805,12 @@ footer {
     font-weight: 600;
 }
 
+.diario .botao-largo.botao-cancelar-edicao {
+    background: transparent;
+    border: 1.5px solid #F2B5A4;
+    margin-top: 12px;
+}
+
 .diario #div_exibir {
     margin: 0 0 16px;
 }
@@ -1074,6 +1080,10 @@ footer {
 .memoria-lixeira svg {
     width: 18px;
     height: 18px;
+}
+
+.memoria-lapis {
+    right: 52px;
 }
 
 /* ===================================================== */

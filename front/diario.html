@@ -1,200 +1,185 @@
 <!doctype html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Meu diário · Colo de Mãe</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lora:wght@600&family=Poppins:ital,wght@0,400;0,600;1,400&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-   <body class="pagina-diario" onload="carregarPagina()">
-    <!-- AQUARELAS DE FUNDO -->
-    <div class="fundo-aquarela">
-      <div class="mancha m1"></div>
-      <div class="mancha m2"></div>
-      <div class="mancha d3"></div>
-      <div class="mancha d4"></div>
-      <div class="mancha d5"></div>
-      <div class="mancha d6"></div>
-      <div class="mancha d7"></div>
-      <div class="mancha d8"></div>
-    </div>
 
-    <!-- MENU -->
-    <header>
-      <a href="index.html" class="logo">
-          <svg
-            width="27"
-            height="38"
-            viewBox="0 0 41.5 56"
-            fill="none"
-            stroke="#5A3E3E"
-            stroke-width="2.1"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            style="margin-right: 11px"
-          >
-            <circle cx="12.1" cy="10" r="7.6" />
-            <circle cx="28.5" cy="10" r="7.6" />
-            <circle cx="12.1" cy="26.2" r="7.6" />
-            <circle cx="28.5" cy="26.2" r="7.6" />
-            <circle cx="20.3" cy="17.6" r="4.6" fill="#FFF8F0" />
-            <path d="M20.3 31V53.5" />
-            <path d="M1.3 40.3C2 48 10 54 20.3 53.7C18 46 10 41 1.3 40.3Z" />
-            <path
-              d="M39.3 40.3C38.6 48 30.6 54 20.3 53.7C22.6 46 30.6 41 39.3 40.3Z"
-            />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meu diário · Colo de Mãe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:wght@600&family=Poppins:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body class="pagina-diario" onload="carregarPagina()">
+  <!-- AQUARELAS DE FUNDO -->
+  <div class="fundo-aquarela">
+    <div class="mancha m1"></div>
+    <div class="mancha m2"></div>
+    <div class="mancha d3"></div>
+    <div class="mancha d4"></div>
+    <div class="mancha d5"></div>
+    <div class="mancha d6"></div>
+    <div class="mancha d7"></div>
+    <div class="mancha d8"></div>
+  </div>
+
+  <!-- MENU -->
+  <header>
+    <a href="index.html" class="logo">
+      <svg width="27" height="38" viewBox="0 0 41.5 56" fill="none" stroke="#5A3E3E" stroke-width="2.1"
+        stroke-linecap="round" stroke-linejoin="round" style="margin-right: 11px">
+        <circle cx="12.1" cy="10" r="7.6" />
+        <circle cx="28.5" cy="10" r="7.6" />
+        <circle cx="12.1" cy="26.2" r="7.6" />
+        <circle cx="28.5" cy="26.2" r="7.6" />
+        <circle cx="20.3" cy="17.6" r="4.6" fill="#FFF8F0" />
+        <path d="M20.3 31V53.5" />
+        <path d="M1.3 40.3C2 48 10 54 20.3 53.7C18 46 10 41 1.3 40.3Z" />
+        <path d="M39.3 40.3C38.6 48 30.6 54 20.3 53.7C22.6 46 30.6 41 39.3 40.3Z" />
+      </svg>
+      Colo de Mãe
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="diario.html"><b>Diário</b></a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="#" onclick="sair()">Sair</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- TOPO -->
+    <section class="diario-topo">
+      <p class="eyebrow">Seu cantinho de afeto</p>
+      <h1 id="h1_ola">Olá.</h1>
+      <p>Que cuidado você quer guardar hoje?</p>
+    </section>
+
+    <section class="diario">
+      <!-- FORMULÁRIO NOVO MOMENTO -->
+      <div class="form-card">
+        <div class="form-titulo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5A3E3E" stroke-width="1.6"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6" />
+            <path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4z" />
           </svg>
-          Colo de Mãe
-      </a>
-      <nav>
-        <a href="index.html">Home</a>
-        <a href="diario.html"><b>Diário</b></a>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="#" onclick="sair()">Sair</a>
-      </nav>
-    </header>
+          <h2 id="h2_form">Novo momento</h2>
+        </div>
+        <p class="form-sub">
+          Não precisa ser extraordinário. Só precisa ter feito bem.
+        </p>
 
-    <main>
-      <!-- TOPO -->
-      <section class="diario-topo">
-        <p class="eyebrow">Seu cantinho de afeto</p>
-        <h1 id="h1_ola">Olá.</h1>
-        <p>Que cuidado você quer guardar hoje?</p>
-      </section>
+        <label for="ipt_titulo">Título</label>
+        <input type="text" id="ipt_titulo" placeholder="Dê um nome a essa lembrança" />
 
-      <section class="diario">
-        <!-- FORMULÁRIO NOVO MOMENTO -->
-        <div class="form-card">
-          <div class="form-titulo">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5A3E3E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
-            <h2>Novo momento</h2>
-          </div>
-          <p class="form-sub">
-            Não precisa ser extraordinário. Só precisa ter feito bem.
-          </p>
+        <label for="ipt_data">Data</label>
+        <input type="date" id="ipt_data" />
 
-          <label for="ipt_titulo">Título</label>
-          <input
-            type="text"
-            id="ipt_titulo"
-            placeholder="Dê um nome a essa lembrança"
-          />
+        <label for="ipt_descricao">Descrição</label>
+        <textarea id="ipt_descricao"
+          placeholder="Como foi esse momento? Conte os detalhes que você não quer esquecer..."></textarea>
 
-          <label for="ipt_data">Data</label>
-          <input type="date" id="ipt_data" />
+        <label for="ipt_musica">Música</label>
+        <input type="text" id="ipt_musica" placeholder="Uma música que combina com esse dia" />
 
-          <label for="ipt_descricao">Descrição</label>
-          <textarea
-            id="ipt_descricao"
-            placeholder="Como foi esse momento? Conte os detalhes que você não quer esquecer..."
-          ></textarea>
+        <label for="ipt_frase">Frase</label>
+        <input type="text" id="ipt_frase" placeholder="Uma frase para levar com você" />
 
-          <label for="ipt_musica">Música</label>
-          <input
-            type="text"
-            id="ipt_musica"
-            placeholder="Uma música que combina com esse dia"
-          />
-
-          <label for="ipt_frase">Frase</label>
-          <input
-            type="text"
-            id="ipt_frase"
-            placeholder="Uma frase para levar com você"
-          />
-
-          <label for="btn_sentimento">Sentimento</label>
-          <div class="dropdown" onmouseleave="fecharListas()">
-            <button type="button" id="btn_sentimento" class="dropdown-botao" onclick="abrirLista('sentimento')">
-              <span id="span_sentimento">Selecione uma opção</span> <span>▾</span>
-            </button>
-            <div id="lista_sentimento" class="dropdown-lista"></div>
-          </div>
-          <div id="div_aviso_sentimento"></div>
-
-          <label for="btn_colo">Você se sentiu no colo de quem?</label>
-          <div class="dropdown" onmouseleave="fecharListas()">
-            <button type="button" id="btn_colo" class="dropdown-botao" onclick="abrirLista('colo')">
-              Selecione uma opção <span>▾</span>
-            </button>
-            <div id="lista_colo" class="dropdown-lista"></div>
-          </div>
-          <div id="div_aviso_colo"></div>
-          <div id="div_colos_escolhidos" class="colos-escolhidos"></div>
-
-          <label for="ipt_foto">Link da foto</label>
-          <input type="text" id="ipt_foto" placeholder="https://..." />
-
-          <div id="div_exibir"></div>
-
-          <button type="button" class="botao botao-largo" onclick="salvar()">
-            Salvar memória
+        <label for="btn_sentimento">Sentimento</label>
+        <div class="dropdown" onmouseleave="fecharListas()">
+          <button type="button" id="btn_sentimento" class="dropdown-botao" onclick="abrirLista('sentimento')">
+            <span id="span_sentimento">Selecione uma opção</span> <span>▾</span>
           </button>
+          <div id="lista_sentimento" class="dropdown-lista"></div>
         </div>
+        <div id="div_aviso_sentimento"></div>
 
-        <!-- LISTA DE MEMÓRIAS -->
-        <div class="lista-memorias">
-          <div class="lista-topo">
-            <h2>Minhas memórias</h2>
-            <span id="span_total"></span>
-          </div>
-          <p class="lista-sub">Mais recentes primeiro · carinho em cada registro.</p>
-          <div id="div_memorias"></div>
+        <label for="btn_colo">Você se sentiu no colo de quem?</label>
+        <div class="dropdown" onmouseleave="fecharListas()">
+          <button type="button" id="btn_colo" class="dropdown-botao" onclick="abrirLista('colo')">
+            Selecione uma opção <span>▾</span>
+          </button>
+          <div id="lista_colo" class="dropdown-lista"></div>
         </div>
-      </section>
-    </main>
+        <div id="div_aviso_colo"></div>
+        <div id="div_colos_escolhidos" class="colos-escolhidos"></div>
 
-    <footer>
-      <span>Projeto Individual · SPTech · 1ADSA</span>
-      <em>Feito de afeto, para guardar afeto.</em>
-    </footer>
+        <label for="ipt_foto">Link da foto</label>
+        <input type="text" id="ipt_foto" placeholder="https://..." />
 
-    <!-- JANELA DA MEMÓRIA -->
-    <div id="modal_memoria" class="modal-fundo">
-      <div class="modal-caixa">
-        <button class="modal-fechar" onclick="fecharModal()">✕</button>
-        <div id="div_modal"></div>
-      </div>
-    </div>
+        <div id="div_exibir"></div>
 
-    <!-- FOTO EM TAMANHO GRANDE -->
-    <div id="modal_foto" class="modal-fundo" onclick="fecharFoto()">
-      <button class="modal-fechar">✕</button>
-      <img id="img_foto_grande" class="foto-grande" />
-    </div>
-
-    <!-- CONFIRMAR EXCLUSÃO DA MEMÓRIA -->
-    <div id="modal_confirmar" class="modal-fundo" onclick="fecharConfirmar()">
-      <div class="modal-confirmar" onclick="event.stopPropagation()">
-        <h3>Apagar esta memória?</h3>
-        <p id="texto_confirmar"></p>
-        <span id="aviso_confirmar"></span>
-        <div class="confirmar-botoes">
-          <button class="botao-cancelar" onclick="fecharConfirmar()">Cancelar</button>
-          <button class="botao-apagar" onclick="apagarMemoria()">Apagar</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- JANELA PARA ADICIONAR SENTIMENTO OU PESSOA -->
-    <div id="modal_adicionar" class="modal-fundo">
-      <div class="modal-caixa modal-pequeno">
-        <button class="modal-fechar" onclick="fecharAdicionar()">✕</button>
-        <h3 class="modal-titulo" id="h3_adicionar"></h3>
-        <p class="modal-descricao" id="p_adicionar"></p>
-        <input type="text" id="ipt_adicionar" />
-        <div id="div_adicionar"></div>
-        <button type="button" class="botao botao-largo" onclick="confirmarAdicionar()">
-          Adicionar
+        <button type="button" id="btn_salvar" class="botao botao-largo" onclick="salvar()">
+          Salvar memória
         </button>
+
+          <button type="button" id="btn_cancelar_edicao" class="botao botao-largo botao-cancelar-edicao" onclick="cancelarEdicao()" style="display: none;">
+            Cancelar edição
+          </button>
+      </div>
+
+      <!-- LISTA DE MEMÓRIAS -->
+      <div class="lista-memorias">
+        <div class="lista-topo">
+          <h2>Minhas memórias</h2>
+          <span id="span_total"></span>
+        </div>
+        <p class="lista-sub">Mais recentes primeiro · carinho em cada registro.</p>
+        <div id="div_memorias"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Projeto Individual · SPTech · 1ADSA</span>
+    <em>Feito de afeto, para guardar afeto.</em>
+  </footer>
+
+  <!-- JANELA DA MEMÓRIA -->
+  <div id="modal_memoria" class="modal-fundo">
+    <div class="modal-caixa">
+      <button class="modal-fechar" onclick="fecharModal()">✕</button>
+      <div id="div_modal"></div>
+    </div>
+  </div>
+
+  <!-- FOTO EM TAMANHO GRANDE -->
+  <div id="modal_foto" class="modal-fundo" onclick="fecharFoto()">
+    <button class="modal-fechar">✕</button>
+    <img id="img_foto_grande" class="foto-grande" />
+  </div>
+
+  <!-- CONFIRMAR EXCLUSÃO DA MEMÓRIA -->
+  <div id="modal_confirmar" class="modal-fundo" onclick="fecharConfirmar()">
+    <div class="modal-confirmar" onclick="event.stopPropagation()">
+      <h3>Apagar esta memória?</h3>
+      <p id="texto_confirmar"></p>
+      <span id="aviso_confirmar"></span>
+      <div class="confirmar-botoes">
+        <button class="botao-cancelar" onclick="fecharConfirmar()">Cancelar</button>
+        <button class="botao-apagar" onclick="apagarMemoria()">Apagar</button>
       </div>
     </div>
-  </body>
+  </div>
+
+  <!-- JANELA PARA ADICIONAR SENTIMENTO OU PESSOA -->
+  <div id="modal_adicionar" class="modal-fundo">
+    <div class="modal-caixa modal-pequeno">
+      <button class="modal-fechar" onclick="fecharAdicionar()">✕</button>
+      <h3 class="modal-titulo" id="h3_adicionar"></h3>
+      <p class="modal-descricao" id="p_adicionar"></p>
+      <input type="text" id="ipt_adicionar" />
+      <div id="div_adicionar"></div>
+      <button type="button" class="botao botao-largo" onclick="confirmarAdicionar()">
+        Adicionar
+      </button>
+    </div>
+  </div>
+</body>
+
 </html>
 
 <script>
@@ -204,8 +189,10 @@
   let colosEscolhidos = [];
   let tipoAdicionar = "";
   let listaMemorias = [];
+  let memoriaEditando = 0;
   let siglasMeses = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
   let iconeLixeira = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7A5C54" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></svg>`;
+  let iconeLapis = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7A5C54" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>`;
 
   function sair() {
     sessionStorage.removeItem("ID_USUARIO");
@@ -228,9 +215,6 @@
     carregarMemorias();
   }
 
-  // ---------- LISTAS SUSPENSAS ----------
-
-  // abre ou fecha a lista de um dos dois campos
   function abrirLista(tipo) {
     let lista = lista_colo;
 
@@ -238,7 +222,6 @@
       lista = lista_sentimento;
     }
 
-    // some o aviso de exclusão que estava na tela
     div_aviso_sentimento.innerHTML = "";
     div_aviso_colo.innerHTML = "";
 
@@ -255,8 +238,6 @@
     lista_colo.style.display = "none";
   }
 
-  // ---------- SENTIMENTO (escolhe um só) ----------
-
   function carregarSentimentos() {
     let fkUsuario = sessionStorage.ID_USUARIO;
 
@@ -271,7 +252,6 @@
     });
   }
 
-  // uma linha por sentimento, cada uma com a lixeirinha; o escolhido fica destacado
   function montarListaSentimento() {
     let linhas = "";
 
@@ -295,7 +275,6 @@
     lista_sentimento.innerHTML = linhas;
   }
 
-  // o botão mostra o nome do sentimento escolhido (ou "Selecione uma opção")
   function montarBotaoSentimento() {
     let nome = "Selecione uma opção";
 
@@ -315,8 +294,6 @@
     montarListaSentimento();
   }
 
-  // ---------- COLOS (escolhe vários) ----------
-
   function carregarColos() {
     let fkUsuario = sessionStorage.ID_USUARIO;
 
@@ -331,7 +308,6 @@
     });
   }
 
-  // todas as pessoas ficam na lista, cada uma com a lixeirinha; as escolhidas ficam destacadas
   function montarListaColo() {
     let linhas = "";
 
@@ -357,7 +333,6 @@
     lista_colo.innerHTML = linhas;
   }
 
-  // etiquetas das pessoas escolhidas, cada uma com um ✕
   function montarChipsColo() {
     let chips = "";
 
@@ -376,7 +351,6 @@
     div_colos_escolhidos.innerHTML = chips;
   }
 
-  // só escolhe se a pessoa ainda não estiver escolhida
   function escolherColo(id) {
     let jaEscolhido = 0;
 
@@ -395,7 +369,6 @@
     montarListaColo();
   }
 
-  // tira uma pessoa da lista de escolhidas (cria uma lista nova sem ela)
   function removerColo(posicao) {
     let novos = [];
 
@@ -409,8 +382,6 @@
     montarChipsColo();
     montarListaColo();
   }
-
-  // ---------- JANELA DE ADICIONAR (sentimento ou pessoa) ----------
 
   function abrirAdicionar(tipo) {
     tipoAdicionar = tipo;
@@ -456,7 +427,7 @@
     } else if (nome.includes("'")) {
       div_adicionar.innerHTML = `<span style="color: red;">• Não use aspas simples.</span>`;
     } else {
-      // se já existe com esse nome, só escolhe; senão, cadastra no banco
+
       let idExistente = 0;
 
       for (let i = 0; i < lista.length; i++) {
@@ -526,9 +497,6 @@
     }
   }
 
-  // ---------- EXCLUIR (sentimento ou pessoa) ----------
-
-  // clicou na lixeira: exclui direto; se estiver em uso, mostra o aviso embaixo do campo
   function excluir(tipo, id) {
     let rota = "colos";
     let nome = "";
@@ -576,7 +544,7 @@
             carregarColos();
           }
         } else {
-          // a lista fecha para o aviso aparecer embaixo do campo
+
           fecharListas();
 
           let aviso = `• "${nome}" está sendo usado em uma memória. Tire-o da memória antes de excluir.`;
@@ -596,8 +564,6 @@
         console.log(erro);
       });
   }
-
-  // ---------- SALVAR MEMÓRIA ----------
 
   function salvar() {
     let titulo = ipt_titulo.value;
@@ -661,8 +627,18 @@
     if (qtdErros == 0) {
       div_exibir.innerHTML = `<span style="color: green;">Salvando...</span>`;
 
-      fetch("/memorias/cadastrar", {
-        method: "POST",
+      let rota = "/memorias/cadastrar";
+      let metodo = "POST";
+      let mensagemOk = "Memória guardada com carinho!";
+
+      if (memoriaEditando != 0) {
+        rota = `/memorias/editar/${memoriaEditando}`;
+        metodo = "PUT";
+        mensagemOk = "Memória atualizada com carinho!";
+      }
+
+      fetch(rota, {
+        method: metodo,
         headers: {
           "Content-Type": "application/json",
         },
@@ -680,7 +656,7 @@
       })
         .then(function (resposta) {
           if (resposta.ok) {
-            div_exibir.innerHTML = `<span style="color: green;">Memória guardada com carinho!</span>`;
+            div_exibir.innerHTML = `<span style="color: green;">${mensagemOk}</span>`;
 
             ipt_titulo.value = "";
             ipt_data.value = "";
@@ -691,6 +667,10 @@
 
             sentimentoEscolhido = 0;
             colosEscolhidos = [];
+            memoriaEditando = 0;
+            h2_form.innerHTML = "Novo momento";
+            btn_salvar.innerHTML = "Salvar memória";
+            btn_cancelar_edicao.style.display = "none";
 
             montarListaSentimento();
             montarBotaoSentimento();
@@ -710,8 +690,6 @@
     }
   }
 
-  // ---------- LISTA DE MEMÓRIAS ----------
-
   function carregarMemorias() {
     let fkUsuario = sessionStorage.ID_USUARIO;
 
@@ -721,8 +699,6 @@
           listaMemorias = memorias;
 
           let cartoes = "";
-
-          // contagem ao lado do título
           let textoTotal = `${memorias.length} memórias`;
 
           if (memorias.length == 1) {
@@ -760,6 +736,7 @@
                   <span class="memoria-data">${dataExtenso}</span>
                   <div class="memoria-pilulas">
                     <span class="memoria-sentimento" data-sentimento="${memorias[i].sentimento}">${memorias[i].sentimento}</span>
+                    <button class="memoria-lixeira memoria-lapis" onclick="editarMemoria(event, ${i})">${iconeLapis}</button>
                     <button class="memoria-lixeira" onclick="pedirExclusao(event, ${i})">${iconeLixeira}</button>
                   </div>
                 </div>
@@ -776,48 +753,79 @@
       }
     });
   }
-    let fkUsuario = sessionStorage.ID_USUARIO;
 
-    fetch(`/memorias/listar/${fkUsuario}`).then(function (resposta) {
-      if (resposta.ok) {
-        resposta.json().then(function (memorias) {
-          listaMemorias = memorias;
+  function editarMemoria(evento, i) {
+    evento.stopPropagation();
 
-          let cartoes = "";
+    let memoria = listaMemorias[i];
+    memoriaEditando = memoria.id_memoria;
 
-          if (memorias.length == 0) {
-            cartoes = "<p>Você ainda não guardou nenhuma memória.</p>";
-          }
+    ipt_titulo.value = memoria.titulo;
+    ipt_data.value = memoria.data.split("T")[0];
+    ipt_descricao.value = memoria.descricao;
+    ipt_musica.value = "";
+    ipt_frase.value = "";
+    ipt_foto.value = "";
 
-          for (let i = 0; i < memorias.length; i++) {
-            let partes = memorias[i].data.split("T")[0].split("-");
-            let dataBr = `${partes[2]}/${partes[1]}/${partes[0]}`;
-            let linhaColos = "";
+    if (memoria.musica != null) {
+      ipt_musica.value = memoria.musica;
+    }
 
-            if (memorias[i].colos != null) {
-              linhaColos = `<p class="memoria-colos">Seu colo: ${memorias[i].colos}</p>`;
-            }
+    if (memoria.frase != null) {
+      ipt_frase.value = memoria.frase;
+    }
 
-            cartoes += `
-              <div class="memoria-card" onclick="abrirModal(${i})">
-                <div class="memoria-topo">
-                  <span class="memoria-data">${dataBr}</span>
-                  <div class="memoria-pilulas">
-                    <span class="memoria-sentimento" data-sentimento="${memorias[i].sentimento}">${memorias[i].sentimento}</span>
-                  </div>
-                </div>
-                <h3>${memorias[i].titulo}</h3>
-                <p>${memorias[i].frase}</p>
-                ${linhaColos}
-              </div>
-            `;
-          }
+    if (memoria.foto != null) {
+      ipt_foto.value = memoria.foto;
+    }
 
-          div_memorias.innerHTML = cartoes;
-        });
+    sentimentoEscolhido = memoria.fk_sentimento;
+
+    colosEscolhidos = [];
+
+    if (memoria.ids_colos != null) {
+      let ids = memoria.ids_colos.split(",");
+
+      for (let j = 0; j < ids.length; j++) {
+        colosEscolhidos.push(Number(ids[j]));
       }
-    });
+    }
 
+    montarListaSentimento();
+    montarBotaoSentimento();
+    montarListaColo();
+    montarChipsColo();
+
+    h2_form.innerHTML = "Editar momento";
+    btn_salvar.innerHTML = "Salvar alterações";
+    btn_cancelar_edicao.style.display = "block";
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function cancelarEdicao() {
+    memoriaEditando = 0;
+
+    ipt_titulo.value = "";
+    ipt_data.value = "";
+    ipt_descricao.value = "";
+    ipt_musica.value = "";
+    ipt_frase.value = "";
+    ipt_foto.value = "";
+
+    sentimentoEscolhido = 0;
+    colosEscolhidos = [];
+
+    h2_form.innerHTML = "Novo momento";
+    btn_salvar.innerHTML = "Salvar memória";
+    btn_cancelar_edicao.style.display = "none";
+    div_exibir.innerHTML = "";
+
+    montarListaSentimento();
+    montarBotaoSentimento();
+    montarListaColo();
+    montarChipsColo();
+  }
 
   function abrirModal(i) {
     let memoria = listaMemorias[i];
@@ -861,7 +869,6 @@
     modal_memoria.style.display = "none";
   }
 
-  // abre a foto em tamanho grande
   function abrirFoto(i) {
     img_foto_grande.src = listaMemorias[i].foto;
     modal_foto.style.display = "flex";
@@ -873,7 +880,6 @@
 
   let memoriaParaApagar = 0;
 
-  // abre a caixa de confirmação
   function pedirExclusao(evento, i) {
     evento.stopPropagation();
 
@@ -887,7 +893,6 @@
     modal_confirmar.style.display = "none";
   }
 
-  // apaga de verdade depois do "Apagar"
   function apagarMemoria() {
     fetch(`/memorias/excluir/${memoriaParaApagar}/${sessionStorage.ID_USUARIO}`, {
       method: "DELETE",
