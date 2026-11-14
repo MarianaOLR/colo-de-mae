@@ -14,7 +14,7 @@ function sentimentos(fkUsuario) {
 
 function memoriaAleatoria(fkUsuario) {
     let instrucao = `
-        SELECT memoria.titulo, memoria.data, memoria.descricao, memoria.musica,
+        SELECT memoria.id_memoria, memoria.titulo, memoria.data, memoria.descricao, memoria.musica,
                memoria.frase, sentimento.nome AS sentimento
         FROM memoria
         JOIN sentimento ON sentimento.id_sentimento = memoria.fk_sentimento

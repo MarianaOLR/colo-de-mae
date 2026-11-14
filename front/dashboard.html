@@ -14,7 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body class="pagina-dashboard" onload="carregarPagina()">
-    <!-- AQUARELAS DE FUNDO -->
+
     <div class="fundo-aquarela">
       <div class="mancha m1"></div>
       <div class="mancha m2"></div>
@@ -26,7 +26,6 @@
       <div class="mancha b8"></div>
     </div>
 
-    <!-- MENU -->
     <header>
       <a href="index.html" class="logo">
           <svg
@@ -360,7 +359,7 @@
           ${linhaFrase}
           ${linhaMusica}
         </div>
-        <a class="aleatoria-botao" href="diario.html">Abrir no diário</a>
+        <a class="aleatoria-botao" href="diario.html?memoria=${memoria.id_memoria}">Abrir no diário</a>
       `;
     }
   }

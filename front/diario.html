@@ -14,7 +14,6 @@
 </head>
 
 <body class="pagina-diario" onload="carregarPagina()">
-  <!-- AQUARELAS DE FUNDO -->
   <div class="fundo-aquarela">
     <div class="mancha m1"></div>
     <div class="mancha m2"></div>
@@ -26,7 +25,6 @@
     <div class="mancha d8"></div>
   </div>
 
-  <!-- MENU -->
   <header>
     <a href="index.html" class="logo">
       <svg width="27" height="38" viewBox="0 0 41.5 56" fill="none" stroke="#5A3E3E" stroke-width="2.1"
@@ -51,7 +49,6 @@
   </header>
 
   <main>
-    <!-- TOPO -->
     <section class="diario-topo">
       <p class="eyebrow">Seu cantinho de afeto</p>
       <h1 id="h1_ola">Olá.</h1>
@@ -59,7 +56,6 @@
     </section>
 
     <section class="diario">
-      <!-- FORMULÁRIO NOVO MOMENTO -->
       <div class="form-card">
         <div class="form-titulo">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5A3E3E" stroke-width="1.6"
@@ -122,7 +118,6 @@
           </button>
       </div>
 
-      <!-- LISTA DE MEMÓRIAS -->
       <div class="lista-memorias">
         <div class="lista-topo">
           <h2>Minhas memórias</h2>
@@ -139,7 +134,6 @@
     <em>Feito de afeto, para guardar afeto.</em>
   </footer>
 
-  <!-- JANELA DA MEMÓRIA -->
   <div id="modal_memoria" class="modal-fundo">
     <div class="modal-caixa">
       <button class="modal-fechar" onclick="fecharModal()">✕</button>
@@ -147,13 +141,11 @@
     </div>
   </div>
 
-  <!-- FOTO EM TAMANHO GRANDE -->
   <div id="modal_foto" class="modal-fundo" onclick="fecharFoto()">
     <button class="modal-fechar">✕</button>
     <img id="img_foto_grande" class="foto-grande" />
   </div>
 
-  <!-- CONFIRMAR EXCLUSÃO DA MEMÓRIA -->
   <div id="modal_confirmar" class="modal-fundo" onclick="fecharConfirmar()">
     <div class="modal-confirmar" onclick="event.stopPropagation()">
       <h3>Apagar esta memória?</h3>
@@ -166,7 +158,6 @@
     </div>
   </div>
 
-  <!-- JANELA PARA ADICIONAR SENTIMENTO OU PESSOA -->
   <div id="modal_adicionar" class="modal-fundo">
     <div class="modal-caixa modal-pequeno">
       <button class="modal-fechar" onclick="fecharAdicionar()">✕</button>
@@ -732,7 +723,7 @@
             }
 
             cartoes += `
-              <div class="memoria-card" onclick="abrirModal(${i})">
+              <div class="memoria-card" id="memoria_${memorias[i].id_memoria}" onclick="abrirModal(${i})">
                 <div class="memoria-topo">
                   <span class="memoria-data">${dataExtenso}</span>
                   <div class="memoria-pilulas">
@@ -750,9 +741,39 @@
           }
 
           div_memorias.innerHTML = cartoes;
+          irParaMemoria();
         });
       }
     });
+  }
+o
+  function irParaMemoria() {
+    let parametros = new URLSearchParams(window.location.search);
+    let id = parametros.get("memoria");
+
+    if (id != null) {
+      let posicao = -1;
+
+      for (let i = 0; i < listaMemorias.length; i++) {
+        if (listaMemorias[i].id_memoria == id) {
+          posicao = i;
+        }
+      }
+
+      let cartao = document.getElementById(`memoria_${id}`);
+
+      if (cartao != null && posicao != -1) {
+        setTimeout(function () {
+          cartao.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 600);
+
+        setTimeout(function () {
+          abrirModal(posicao);
+        }, 1500);
+      }
+
+      window.history.replaceState({}, "", "diario.html");
+    }
   }
 
   function editarMemoria(evento, i) {
