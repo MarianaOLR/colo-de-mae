@@ -115,12 +115,12 @@ Com os registros, o site mostra um **dashboard** com o sentimento mais citado, o
 ## ▶️ Como rodar
 
 1. Ligue a VM Linux com o MySQL (o VirtualBox encaminha a porta `3307` do seu computador para a `3306` da VM) e conecte o MySQL Workbench em `127.0.0.1:3307`.
-2. Nessa conexão, rode o [script.sql](banco/script.sql) para criar o banco `colo_de_mae`.
+2. Nessa conexão, rode o [script.sql](banco/script.sql). Ele **apaga e recria** o banco `colo_de_mae`, já com a conta de teste.
 3. Na pasta `api/`, copie o `.env.example` para `.env.dev` e preencha o usuário e a senha do MySQL da VM.
 4. Ainda em `api/`, rode `npm install` e depois `node app.js`.
 5. Abra `http://localhost:3333` no navegador.
 
-Para testar, use um destes usuários do script (e-mail e senha): `daniel@teste.com` / `123`, `marianaa@teste.com` / `456` ou `eduarda@teste.com` / `789`. Todos os dados são fictícios.
+Para testar, use a conta que o script cria: `mariana@exemplo.com` / `123`. Todos os dados são fictícios, feitos por fins educacionais.
 
 <br>
 
