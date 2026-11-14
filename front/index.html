@@ -10,7 +10,6 @@
 </head>
 <body class="pagina-home">
 
-    <!-- AQUARELAS DE FUNDO -->
     <div class="fundo-aquarela">
         <div class="mancha m1"></div>
         <div class="mancha m2"></div>
@@ -27,8 +26,6 @@
         <div class="mancha m13"></div>
     </div>
 
-
-    <!-- DESENHO DOS RAMOS (escondido; é usado na apresentação) -->
     <svg width="0" height="0" style="position: absolute" aria-hidden="true">
         <defs>
             <path id="folha" d="M0 0C5-7 15-8 22 0C15 8 5 7 0 0Z"/>
@@ -56,7 +53,6 @@
         </defs>
     </svg>
 
-    <!-- MENU -->
     <header>
     <a href="index.html" class="logo">
         <svg
@@ -87,13 +83,12 @@
             <a href="index.html"><b>Home</b></a>
             <a href="#sobre">Sobre</a>
             <a href="#como-funciona">Como funciona</a>
-            <a href="login.html">Entrar</a>
+            <a href="login.html" id="a_entrar">Entrar</a>
         </nav>
     </header>
 
     <main>
 
-        <!-- APRESENTAÇÃO -->
         <section class="hero">
             <svg class="ramo ramo-esq" viewBox="0 0 140 800" aria-hidden="true"><use href="#ramo"/></svg>
             <svg class="ramo ramo-dir" viewBox="0 0 140 800" aria-hidden="true"><use href="#ramo"/></svg>
@@ -105,14 +100,13 @@
                 Um cantinho para guardar os pequenos momentos em que a vida te abraçou.
                 E revisitar o carinho sempre que precisar.
             </p>
-            <div class="botoes">
+            <div class="botoes" id="div_botoes">
                 <a href="cadastro.html" class="botao">Cadastrar</a>
                 <a href="login.html" class="botao botao-contorno">Entrar</a>
             </div>
             <p class="aviso">Suas lembranças merecem um lugar especial.</p>
         </section>
 
-        <!-- SOBRE O PROJETO -->
         <section id="sobre" class="sobre">
             <div class="flor-caixa">
                 <div class="flor-mancha"></div>
@@ -136,7 +130,6 @@
             </div>
         </section>
 
-        <!-- COMO FUNCIONA -->
         <section id="como-funciona" class="como-funciona">
             <h2>Como funciona</h2>
             <p>Do primeiro registro ao carinho de reler: é simples assim.</p>
@@ -165,7 +158,6 @@
             </div>
         </section>
 
-        <!-- SOBRE MIM -->
 <section class="sobre-mim">
     <img src="img/foto-mariana.jpg" alt="Foto da Mariana" class="foto">
     <div>
@@ -199,11 +191,21 @@
 
     </main>
 
-    <!-- RODAPÉ -->
     <footer>
         <span>Projeto Individual · SPTech · 1ADSA</span>
         <em>Feito de afeto, para guardar afeto.</em>
     </footer>
+
+    <script>
+        if (sessionStorage.NOME_USUARIO != null) {
+            a_entrar.innerHTML = "Meu diário";
+            a_entrar.href = "diario.html";
+
+            div_botoes.innerHTML = `
+                <a href="diario.html" class="botao">Ir para o meu diário</a>
+            `;
+        }
+    </script>
 
 </body>
 </html>
