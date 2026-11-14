@@ -15,4 +15,8 @@ router.delete("/excluir/:idMemoria/:fkUsuario", function (req, res) {
     memoriaController.excluir(req, res);
 });
 
+router.put("/editar/:idMemoria", function (req, res) {
+    memoriaController.atualizar(req, res);
+});
+
 module.exports = router;

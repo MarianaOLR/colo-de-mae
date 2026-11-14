@@ -28,7 +28,9 @@ function listar(fkUsuario) {
     let instrucao = `
         SELECT memoria.id_memoria, memoria.titulo, memoria.data, memoria.descricao,
                memoria.musica, memoria.frase, memoria.foto,
+               memoria.fk_sentimento,
                sentimento.nome AS sentimento,
+               GROUP_CONCAT(colo.id_colo) AS ids_colos,
                GROUP_CONCAT(colo.nome SEPARATOR ', ') AS colos
         FROM memoria
         JOIN sentimento ON sentimento.id_sentimento = memoria.fk_sentimento
@@ -56,10 +58,22 @@ function excluir(idMemoria, fkUsuario) {
     return database.executar(instrucaoSql);
 }
 
+function atualizar(idMemoria, titulo, data, descricao, musica, frase, foto, fkSentimento, fkUsuario) {
+    let instrucaoSql = `
+        UPDATE memoria
+        SET titulo = '${titulo}', data = '${data}', descricao = '${descricao}',
+            musica = '${musica}', frase = '${frase}', foto = '${foto}',
+            fk_sentimento = ${fkSentimento}
+        WHERE id_memoria = ${idMemoria} AND fk_usuario = ${fkUsuario};
+    `;
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     cadastrar,
     ligarColos,
     listar,
     apagarColos,
-    excluir
+    excluir,
+    atualizar
 };

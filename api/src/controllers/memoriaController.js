@@ -92,8 +92,65 @@ function excluir(req, res) {
     }
 }
 
+function atualizar(req, res) {
+    let idMemoria = req.params.idMemoria;
+    let titulo = req.body.tituloServer;
+    let data = req.body.dataServer;
+    let descricao = req.body.descricaoServer;
+    let musica = req.body.musicaServer;
+    let frase = req.body.fraseServer;
+    let foto = req.body.fotoServer;
+    let fkUsuario = req.body.fkUsuarioServer;
+    let fkSentimento = req.body.sentimentoServer;
+    let colos = req.body.colosServer;
+
+    if (idMemoria == undefined) {
+        res.status(400).send("O id da memória está undefined!");
+    } else if (titulo == undefined) {
+        res.status(400).send("O título está undefined!");
+    } else if (data == undefined) {
+        res.status(400).send("A data está undefined!");
+    } else if (descricao == undefined) {
+        res.status(400).send("A descrição está undefined!");
+    } else if (fkSentimento == undefined) {
+        res.status(400).send("O sentimento está undefined!");
+    } else if (fkUsuario == undefined) {
+        res.status(400).send("O usuário está undefined! Faça login de novo.");
+    } else if (colos == undefined || colos.length == 0) {
+        res.status(400).send("Escolha pelo menos um colo!");
+    } else {
+        memoriaModel.atualizar(idMemoria, titulo, data, descricao, musica, frase, foto, fkSentimento, fkUsuario)
+            .then(function (resultado) {
+                if (resultado.affectedRows == 0) {
+                    res.status(403).send("Essa memória não é sua!");
+                } else {
+                    memoriaModel.apagarColos(idMemoria)
+                        .then(function () {
+                            memoriaModel.ligarColos(idMemoria, colos)
+                                .then(function () {
+                                    res.status(200).json(resultado);
+                                })
+                                .catch(function (erro) {
+                                    console.log(erro);
+                                    res.status(500).json(erro.sqlMessage);
+                                });
+                        })
+                        .catch(function (erro) {
+                            console.log(erro);
+                            res.status(500).json(erro.sqlMessage);
+                        });
+                }
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
 module.exports = {
     cadastrar,
     listar,
-    excluir
+    excluir,
+    atualizar
 };
