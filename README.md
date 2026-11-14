@@ -41,9 +41,9 @@ Com os registros, o site mostra um **dashboard** com o sentimento mais citado, o
 ## ✨ O que o site faz
 
 - 🌱 **Cadastro e login** — cada pessoa tem o seu cantinho, com validação dos campos.
-- 📖 **Diário** — registrar, reler e apagar memórias, cada uma com música, frase, foto, sentimento e quem foi o colo.
+- 📖 **Diário** — registrar, reler, editar e apagar memórias, cada uma com música, frase, foto, sentimento e quem foi o colo.
 - 🌷 **Sentimentos e pessoas só seus** — cada usuário começa com os iniciais e pode criar e apagar os próprios.
-- 🖼️ **Foto da memória** — por link, e abre em tamanho grande ao clicar.
+- 🖼️ **Foto da memória** — por link, e abre em tamanho grande pelo botão **Ver foto**.
 - 📊 **Dashboard** — sentimento mais citado, colo mais presente, total de memórias, memórias por mês, memória sorteada e o que cada colo desperta.
 - 🎨 **Sentimentos em cores** — cada sentimento tem a sua cor nos cards e nos gráficos.
 
@@ -106,7 +106,7 @@ Com os registros, o site mostra um **dashboard** com o sentimento mais citado, o
 - [x] Telas de cadastro e login com validação em JavaScript
 - [x] API em Node.js conectada ao banco
 - [x] Diário e dashboard funcionando
-- [ ] Banco na VM Linux
+- [x] Banco na VM Linux
 - [ ] Documentação final
 - [ ] Apresentação final
 
@@ -114,10 +114,11 @@ Com os registros, o site mostra um **dashboard** com o sentimento mais citado, o
 
 ## ▶️ Como rodar
 
-1. Crie o banco rodando o [script.sql](banco/script.sql) no MySQL Workbench.
-2. Na pasta `api/`, copie o `.env.example` para `.env.dev` e preencha o usuário e a senha do seu MySQL.
-3. Ainda em `api/`, rode `npm install` e depois `node app.js`.
-4. Abra `http://localhost:3333` no navegador.
+1. Ligue a VM Linux com o MySQL (o VirtualBox encaminha a porta `3307` do seu computador para a `3306` da VM) e conecte o MySQL Workbench em `127.0.0.1:3307`.
+2. Nessa conexão, rode o [script.sql](banco/script.sql) para criar o banco `colo_de_mae`.
+3. Na pasta `api/`, copie o `.env.example` para `.env.dev` e preencha o usuário e a senha do MySQL da VM.
+4. Ainda em `api/`, rode `npm install` e depois `node app.js`.
+5. Abra `http://localhost:3333` no navegador.
 
 Para testar, use um destes usuários do script (e-mail e senha): `daniel@teste.com` / `123`, `marianaa@teste.com` / `456` ou `eduarda@teste.com` / `789`. Todos os dados são fictícios.
 
