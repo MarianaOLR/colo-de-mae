@@ -14,7 +14,6 @@
   </head>
   <body class="pagina-form pagina-cadastro">
 
-    <!-- AQUARELAS DE FUNDO -->
     <div class="fundo-aquarela">
         <div class="mancha m1"></div>
         <div class="mancha m2"></div>
@@ -24,7 +23,6 @@
         <div class="mancha f6"></div>
     </div>
 
-    <!-- DESENHO DOS RAMOS (escondido; é usado dentro do formulário) -->
     <svg width="0" height="0" style="position: absolute" aria-hidden="true">
         <defs>
             <path id="folha" d="M0 0C5-7 15-8 22 0C15 8 5 7 0 0Z"/>
@@ -52,7 +50,6 @@
         </defs>
     </svg>
 
-    <!-- MENU -->
     <header>
       <a href="index.html" class="logo">
         <svg
@@ -85,7 +82,7 @@
     </header>
 
     <main>
-      <!-- FORMULÁRIO DE CADASTRO -->
+
       <section class="cadastro">
         <svg class="ramo ramo-esq" viewBox="0 0 140 800" aria-hidden="true"><use href="#ramo"/></svg>
         <svg class="ramo ramo-dir" viewBox="0 0 140 800" aria-hidden="true"><use href="#ramo"/></svg>
@@ -165,7 +162,6 @@
       </section>
     </main>
 
-    <!-- RODAPÉ -->
     <footer>
       <span>Projeto Individual · SPTech · 1ADSA</span>
       <em>Feito de afeto, para guardar afeto.</em>
@@ -209,7 +205,6 @@
           }
         }
 
-        // EMAIL
         let criteriosEmail =
           Number(email.includes("@")) + Number(email.includes("."));
 
@@ -219,7 +214,6 @@
           qtdErros++;
         }
 
-        // SENHA
         let qtdNumeros = 0;
 
         for (let i = 0; i < numeros.length; i++) {
@@ -245,13 +239,11 @@
           qtdErros++;
         }
 
-        // CONFIRMAÇÃO DA SENHA
         if (confirmar != "" && senha != confirmar) {
           mensagem += "• As senhas não são iguais.<br>";
           qtdErros++;
         }
 
-        // RESULTADO
         if (qtdErros == 0) {
           div_mensagem.innerHTML = `<span style="color: green;">Cadastrando...</span>`;
 
