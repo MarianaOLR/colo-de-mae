@@ -1197,6 +1197,26 @@ footer {
     cursor: zoom-in;
 }
 
+.modal-ver-foto {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 999px;
+    background: #F2B5A4;
+    color: var(--texto);
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.modal-ver-foto:hover {
+    background: #EBA593;
+}
+
 /* foto em tamanho grande */
 #modal_foto {
     z-index: 110;
