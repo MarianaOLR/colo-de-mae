@@ -1187,16 +1187,6 @@ footer {
     color: #7A5C54;
 }
 
-.modal-foto {
-    display: block;
-    width: 100%;
-    height: 190px;
-    object-fit: cover;
-    border-radius: 18px;
-    margin-top: 20px;
-    cursor: zoom-in;
-}
-
 .modal-ver-foto {
     display: inline-flex;
     align-items: center;
