@@ -59,19 +59,19 @@ INSERT INTO colo (nome, fk_usuario) VALUES
 INSERT INTO memoria (titulo, data, descricao, musica, frase, foto, fk_usuario, fk_sentimento) VALUES
 ('Ano novo com a Duda', '2026-01-01',
  'Passei a virada do ano com a Duda, minha amiga.',
- 'De Janeiro a Janeiro', 'Que passamos vários e vários anos juntinhas', '', 1, 2),
+ 'De Janeiro a Janeiro', 'Que passamos vários e vários anos juntinhas', 'img/memorias/ano-novo.jpg', 1, 2),
 ('Eu e a Naty', '2026-04-29',
  'Mesmo com todo o meu nervosismo para fazer a prova da SPTech, virei amiga da Nataly de cara. Me senti acolhida por mim mesma e pela minha amiga.',
- 'Amigos para Sempre', 'Fiquei com raiva por você ser impostora', '', 1, 3),
+ 'Amigos para Sempre', 'Fiquei com raiva por você ser impostora', 'img/memorias/naty.jpg', 1, 3),
 ('19 primaveras', '2026-06-08',
  'No meu aniversário, almocei com a minha mãe. Minha melhor amiga não pôde estar presente, mas me enviou um colar para eu usar no dia.',
- 'Parabéns da Xuxa', 'Te amo, aproveita seu dia', '', 1, 2),
+ 'Parabéns da Xuxa', 'Te amo, aproveita seu dia', 'img/memorias/19-primaveras.jpg', 1, 2),
 ('Passei na SPTech!', '2026-06-26',
  'Recebi a notícia de que passei no processo seletivo da SPTech e logo fui avisar a minha mãe e o meu namorado, que na época era só um conhecido.',
- 'Congratulations', 'PASSAMOS, COMEMORA, PULA!', '', 1, 3),
+ 'Congratulations', 'PASSAMOS, COMEMORA, PULA!', 'img/memorias/sptech.jpg', 1, 3),
 ('Sou namorada de alguém...', '2026-10-10',
  'Em uma manhã de sábado, acordei com o cara que eu mais amo no mundo segurando uma caixa: um buquê de flores de cetim que ele mesmo fez, várias fotos nossas, uma carta linda e as alianças. Estou namorando! E claro, que minha mãe ajudou em tudo!',
- 'Preciso Dizer Que Te Amo', 'Quer namorar comigo?', '', 1, 1);
+ 'Preciso Dizer Que Te Amo', 'Quer namorar comigo?', 'img/memorias/pedido-namoro.jpg', 1, 1);
 
 INSERT INTO memoria_colo (fk_memoria, fk_colo) VALUES
 (1, 2),
