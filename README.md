@@ -107,7 +107,7 @@ Com os registros, o site mostra um **dashboard** com o sentimento mais citado, o
 - [x] API em Node.js conectada ao banco
 - [x] Diário e dashboard funcionando
 - [x] Banco na VM Linux
-- [ ] Documentação final
+- [x] Documentação final
 - [ ] Apresentação final
 
 <br>
@@ -120,7 +120,7 @@ Com os registros, o site mostra um **dashboard** com o sentimento mais citado, o
 4. Ainda em `api/`, rode `npm install` e depois `node app.js`.
 5. Abra `http://localhost:3333` no navegador.
 
-Para testar, use a conta que o script cria: `mariana@exemplo.com` / `123`. Todos os dados são fictícios, feitos por fins educacionais.
+Para testar, use a conta que o script cria: mariana@exemplo.com / 123 (mantenha os acentos de crase como estão). Os dados são exemplos baseados na vida da autora, com a autorização das pessoas, feitos para fins educacionais.
 
 <br>
 
